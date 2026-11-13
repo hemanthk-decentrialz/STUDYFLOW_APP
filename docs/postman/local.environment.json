@@ -1,0 +1,30 @@
+{
+  "name": "Studyflow local (fill credentials)",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "enabled": true,
+      "type": "default"
+    },
+    {
+      "key": "email",
+      "value": "",
+      "enabled": true,
+      "type": "default"
+    },
+    {
+      "key": "password",
+      "value": "",
+      "enabled": true,
+      "type": "secret"
+    },
+    {
+      "key": "timer_revision",
+      "value": "0",
+      "enabled": true,
+      "type": "default"
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}
