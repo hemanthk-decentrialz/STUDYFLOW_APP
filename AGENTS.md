@@ -10,3 +10,5 @@
 - Assess feasibility and fit with the existing stack before changes. Centralize preferences in Settings while keeping current-session actions on feature pages. Audit actual references before deleting unused code; retain framework entry points and migrations.
 
 - Keep visual roles in shared light/dark tokens. Preserve semantic progress colours, keyboard-accessible controls and real feature actions during visual changes; avoid external font or icon dependencies unless requested.
+
+- Keep source formatting consistent and comments concise. Explain non-obvious intent, constraints and edge cases rather than narrating the code. Preserve useful spacing, framework directives and applied migrations; avoid repetitive boilerplate and claims about authorship.

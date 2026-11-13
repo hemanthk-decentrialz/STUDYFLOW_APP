@@ -25,7 +25,7 @@ class OwnedRepository:
 
     async def lock_owner(self, *, allow_reset: bool = False) -> None:
         logger.debug("owner_write_lock_requested")
-        # Serialize mutations and reset for one owner, never between unrelated users.
+        # Keep writes and reset atomic for this owner.
         owner = await self.session.scalar(
             select(User).where(User.id == self.user_id).with_for_update()
         )

@@ -7,31 +7,31 @@ import FullPageLoader from "@/components/ui/FullPageLoader";
 import { useAuth } from "@/context/AuthContext";
 
 export default function Layout({
-    children,
-}:{
-    children:React.ReactNode
-}){
-const router = useRouter();
-const { isAuthenticated, isLoading } = useAuth();
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const router = useRouter();
+  const { isAuthenticated, isLoading } = useAuth();
 
-useEffect(() => {
-  if (!isLoading && !isAuthenticated) {
-    router.replace("/login");
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace("/login");
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  if (isLoading || !isAuthenticated) {
+    return <FullPageLoader label="Preparing your dashboard..." />;
   }
-}, [isAuthenticated, isLoading, router]);
 
-if (isLoading || !isAuthenticated) {
-  return <FullPageLoader label="Preparing your dashboard..." />;
-}
+  return (
 
-return(
+    <DashboardLayout>
 
-<DashboardLayout>
+      {children}
 
-{children}
+    </DashboardLayout>
 
-</DashboardLayout>
-
-);
+  );
 
 }

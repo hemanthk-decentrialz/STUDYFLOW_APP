@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { login as loginRequest } from "@/lib/api/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function LoginForm() {
   return (
     <div className="auth-form">
       <div className="auth-form-heading">
-        <h1 className="text-3xl font-bold" style={{ color: "var(--foreground)",}}>
+        <h1 className="text-3xl font-bold" style={{ color: "var(--foreground)", }}>
           Welcome back.
         </h1>
         <p className="text-muted mt-2">
@@ -76,7 +76,7 @@ export default function LoginForm() {
             Password
           </label>
           <div className="relative">
-            <input aria-label="Password" autoComplete="current-password" type={ showPassword ? "text" : "password" } placeholder="Enter password" value={password}
+            <input aria-label="Password" autoComplete="current-password" type={showPassword ? "text" : "password"} placeholder="Enter password" value={password}
               onChange={(e) =>
                 setPassword(
                   e.target.value
@@ -91,7 +91,7 @@ export default function LoginForm() {
                 )
               } className="absolute right-4 top-1/2 -translate-y-1/2 text-muted"
             >
-              <FontAwesomeIcon icon={ showPassword ? faEyeSlash : faEye}/>
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </button>
           </div>
         </div>

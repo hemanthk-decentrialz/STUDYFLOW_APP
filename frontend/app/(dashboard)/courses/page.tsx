@@ -23,7 +23,7 @@ function CourseCard({ course, onSave, onDelete, disabled }: {
       <Button type="submit" disabled={disabled}>Save course</Button>
     </form> : <p className="text-muted text-sm mt-3 whitespace-pre-wrap break-words">{course.description || "Your sessions, notes and goals, together."}</p>}
     <div className="course-links"><Link href={`/planner?course_id=${course.id}`}>Plan sessions ↗</Link><Link href={`/notes?course_id=${course.id}`}>Open notes ↗</Link><Link href={`/goals?course_id=${course.id}`}>View goals ↗</Link></div>
-    <button className="text-xs text-muted mt-5" disabled={disabled} onClick={() => { void onDelete(course.id).catch(() => {}); }}>Remove empty course</button>
+    <button className="text-xs text-muted mt-5" disabled={disabled} onClick={() => { void onDelete(course.id).catch(() => { }); }}>Remove empty course</button>
   </Card>;
 }
 
@@ -42,8 +42,8 @@ export default function CoursesPage() {
       <label className="block text-sm">Description <span className="text-muted">(optional)</span><textarea maxLength={2000} rows={3} value={description} onChange={(event) => setDescription(event.target.value)} className="input-theme w-full rounded-lg p-3 mt-2" /></label>
       <Button type="submit" disabled={resources.loading}>Create course</Button>
     </form></Card><div className="course-library">
-      {!resources.loading && !resources.items.length && <div className="today-empty"><h2 className="font-semibold">Build your study library.</h2><p>Add a course, then plan sessions, collect notes and set goals within it.</p></div>}
-      {resources.items.map((course) => <CourseCard key={course.id} course={course} disabled={resources.loading} onSave={resources.patch} onDelete={resources.remove} />)}
-    </div></div>
+        {!resources.loading && !resources.items.length && <div className="today-empty"><h2 className="font-semibold">Build your study library.</h2><p>Add a course, then plan sessions, collect notes and set goals within it.</p></div>}
+        {resources.items.map((course) => <CourseCard key={course.id} course={course} disabled={resources.loading} onSave={resources.patch} onDelete={resources.remove} />)}
+      </div></div>
   </div>;
 }

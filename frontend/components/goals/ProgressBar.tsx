@@ -14,19 +14,19 @@ export default function ProgressBar({
     safeProgress >= 100
       ? "var(--success)"
       : safeProgress >= 70
-      ? "var(--primary)"
-      : safeProgress >= 40
-      ? "var(--warning)"
-      : "var(--danger)";
+        ? "var(--primary)"
+        : safeProgress >= 40
+          ? "var(--warning)"
+          : "var(--danger)";
 
   const progressLabel =
     safeProgress >= 100
       ? "Completed"
       : safeProgress >= 70
-      ? "Almost there"
-      : safeProgress >= 40
-      ? "Making progress"
-      : "Just getting started";
+        ? "Almost there"
+        : safeProgress >= 40
+          ? "Making progress"
+          : "Just getting started";
 
   return <div className="goal-progress">
     <div className="goal-progress-heading"><span>{progressLabel}</span><strong>{safeProgress}%</strong></div>

@@ -111,7 +111,7 @@ async def test_stale_note_service_never_writes():
 def test_testclient_no_database_smoke():
     from app.main import app
 
-    # No context manager: this smoke check intentionally does not start DB lifespan jobs.
+    # Skip lifespan here; this smoke test must not start database jobs.
     client = TestClient(app)
     response = client.get("/api/v1/not-a-route")
     assert response.status_code == 404

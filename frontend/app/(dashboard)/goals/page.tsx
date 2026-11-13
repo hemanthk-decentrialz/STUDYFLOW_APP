@@ -47,11 +47,11 @@ function GoalsPageContent({ initialQuery }: { initialQuery: ResourceQuery }) {
   }
 
   function deleteGoal(id: number) {
-    void resources.remove(id).catch(() => {});
+    void resources.remove(id).catch(() => { });
   }
 
   function updateProgress(id: number, progress: number) {
-    void resources.patch(id, { progress }).catch(() => {});
+    void resources.patch(id, { progress }).catch(() => { });
   }
 
   return (

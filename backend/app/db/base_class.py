@@ -17,5 +17,5 @@ class Base(DeclarativeBase):
 
     @declared_attr.directive
     def __tablename__(cls) -> str:
-        # Deterministic singular snake_case: StudySession -> study_session.
+        # StudySession maps to study_session.
         return re.sub(r"(?<!^)(?=[A-Z])", "_", cls.__name__).lower()

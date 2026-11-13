@@ -28,7 +28,7 @@ class RequestPolicyMiddleware:
         request = Request(scope)
         try:
             body = bytearray()
-            # Consume a bounded body to prevent unbounded JSON buffering below us.
+            # Reject oversized bodies before JSON parsing.
             while True:
                 message = await receive()
                 if message["type"] == "http.disconnect":

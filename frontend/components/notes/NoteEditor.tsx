@@ -81,8 +81,8 @@ export default function NoteEditor({ note, onAddNote, onSaved, onDone, initialCo
   useEffect(() => {
     const timeout = setTimeout(() => { writeDraft(); if (note && !recovery && !conflict && !error && valid(latest.current) && dirty(latest.current)) void save(); }, 900);
     return () => clearTimeout(timeout);
-  // Save reads the latest refs; incoming server props never replace an unsaved draft.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Save reads the latest refs; incoming server props never replace an unsaved draft.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft, recovery, conflict, cycle]);
   const change = (changes: Partial<Draft>) => { const next = { ...latest.current, ...changes }; latest.current = next; setDraft(next); setError(""); setStatus(note ? "Unsaved changes" : "Draft on this device"); };
   return <Card className={`note-editor${note ? "" : " form-panel"}`}><h2 className="text-xl font-semibold mb-4">{note ? "Edit note" : "Create note"}</h2>

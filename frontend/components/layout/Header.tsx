@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faArrowRight} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { getGreeting } from "@/utils/greetings";
 import usePreferences from "@/hooks/usePreferences";
 import { formatDate } from "@/utils/formatDate";
@@ -31,7 +31,7 @@ export default function Header({
       {/* Left */}
       <div className="flex min-w-0 items-center gap-2 sm:gap-4">
         <button onClick={onMenuClick} aria-label={menuOpen ? "Collapse navigation" : "Open navigation"} aria-controls="studyflow-navigation" aria-expanded={menuOpen} className="icon-button rounded-xl p-3 transition">
-          <FontAwesomeIcon icon={faBars} className="text-lg"/>
+          <FontAwesomeIcon icon={faBars} className="text-lg" />
         </button>
         <div className="min-w-0">
           <h2 className="truncate text-sm font-semibold sm:text-2xl sm:font-bold" style={{ color: "var(--foreground)", }} suppressHydrationWarning>
@@ -47,12 +47,12 @@ export default function Header({
         <Link href="/profile" aria-label="Open your profile" className="header-profile min-w-0">
           <div className="header-avatar shrink-0">
             <p className="text-inherit" suppressHydrationWarning>
-            {user?.name
-              ?.split(" ")
-              .map((n) => n[0])
-              .join("")
-              .slice(0, 2)
-              .toUpperCase()}
+              {user?.name
+                ?.split(" ")
+                .map((n) => n[0])
+                .join("")
+                .slice(0, 2)
+                .toUpperCase()}
             </p>
           </div>
           <div className="hidden max-w-40 text-left md:block">
@@ -63,7 +63,7 @@ export default function Header({
               {user?.email}
             </p>
           </div>
-          <FontAwesomeIcon icon={faArrowRight} className="text-muted hidden text-xs md:block"/>
+          <FontAwesomeIcon icon={faArrowRight} className="text-muted hidden text-xs md:block" />
         </Link>
         <button
           disabled={signingOut}

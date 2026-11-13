@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signup } from "@/lib/api/auth";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function SignupForm() {
       email
     );
   }
-  async function handleSubmit( e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -68,7 +68,7 @@ export default function SignupForm() {
       );
     }
   }
-    return (
+  return (
     <div className="auth-form">
       <div className="auth-form-heading">
         <h1 className="text-3xl font-bold" style={{ color: "var(--foreground)", }}>
@@ -84,14 +84,14 @@ export default function SignupForm() {
           <label className="mb-2 block text-sm font-medium" style={{ color: "var(--foreground)" }}>
             Full Name
           </label>
-          <input aria-label="Full name" autoComplete="name" type="text" value={name} placeholder="Enter your full name" onChange={(e) => setName(e.target.value)} className="input-theme w-full rounded-xl px-4 py-3"/>
+          <input aria-label="Full name" autoComplete="name" type="text" value={name} placeholder="Enter your full name" onChange={(e) => setName(e.target.value)} className="input-theme w-full rounded-xl px-4 py-3" />
         </div>
         {/* Email */}
         <div>
           <label className="mb-2 block text-sm font-medium" style={{ color: "var(--foreground)" }}>
             Email
           </label>
-          <input aria-label="Email" autoComplete="email" type="email" value={email} placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} className="input-theme w-full rounded-xl px-4 py-3"/>
+          <input aria-label="Email" autoComplete="email" type="email" value={email} placeholder="Enter your email" onChange={(e) => setEmail(e.target.value)} className="input-theme w-full rounded-xl px-4 py-3" />
         </div>
         {/* Password */}
         <div>
@@ -99,9 +99,9 @@ export default function SignupForm() {
             Password
           </label>
           <div className="relative">
-            <input aria-label="Password" autoComplete="new-password" type={ showPassword ? "text" : "password"} value={password} placeholder="12+ characters, upper/lowercase, number and symbol" onChange={(e) => setPassword( e.target.value) } className="input-theme w-full rounded-xl px-4 py-3 pr-12"/>
-            <button aria-label={showPassword ? "Hide password" : "Show password"} type="button" onClick={() => setShowPassword( (previous) => !previous)} className=" absolute right-4 top-1/2 -translate-y-1/2 text-muted">
-              <FontAwesomeIcon icon={ showPassword ? faEyeSlash : faEye}/>
+            <input aria-label="Password" autoComplete="new-password" type={showPassword ? "text" : "password"} value={password} placeholder="12+ characters, upper/lowercase, number and symbol" onChange={(e) => setPassword(e.target.value)} className="input-theme w-full rounded-xl px-4 py-3 pr-12" />
+            <button aria-label={showPassword ? "Hide password" : "Show password"} type="button" onClick={() => setShowPassword((previous) => !previous)} className=" absolute right-4 top-1/2 -translate-y-1/2 text-muted">
+              <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </button>
           </div>
         </div>
@@ -111,9 +111,9 @@ export default function SignupForm() {
             Confirm Password
           </label>
           <div className="relative">
-            <input aria-label="Confirm password" autoComplete="new-password" type={showConfirmPassword ? "text" : "password"} value={confirmPassword} placeholder="Confirm your password" onChange={(e) => setConfirmPassword(e.target.value)} className="input-theme w-full rounded-xl px-4 py-3 pr-12"/>
+            <input aria-label="Confirm password" autoComplete="new-password" type={showConfirmPassword ? "text" : "password"} value={confirmPassword} placeholder="Confirm your password" onChange={(e) => setConfirmPassword(e.target.value)} className="input-theme w-full rounded-xl px-4 py-3 pr-12" />
             <button aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"} type="button" onClick={() => setShowConfirmPassword((previous) => !previous)} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted">
-              <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye}/>
+              <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
             </button>
           </div>
         </div>

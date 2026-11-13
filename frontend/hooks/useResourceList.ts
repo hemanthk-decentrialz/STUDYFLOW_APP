@@ -62,17 +62,25 @@ export default function useResourceList<T extends { id: number }, Patch = Partia
       if (!api.patch) throw new Error("Editing is not available for this resource.");
       const patch = api.patch;
       const saved = await mutate(() => patch(id, payload));
-      setResult((previous) => previous ? { ...previous, data: { ...previous.data,
-        items: previous.data.items.map((item) => item.id === id ? saved : item) } } : previous);
+      setResult((previous) => previous ? {
+        ...previous, data: {
+          ...previous.data,
+          items: previous.data.items.map((item) => item.id === id ? saved : item)
+        }
+      } : previous);
       return saved;
     },
     replace: (saved: T) => setResult((previous) => previous ? { ...previous, data: { ...previous.data, items: previous.data.items.map((item) => item.id === saved.id ? saved : item) } } : previous),
     remove: async (id: number) => {
       await mutate(() => api.remove(id));
-      notify("Item deleted.", { action: { label: "Undo", run: async () => {
-        await mutate(() => restoreResource<T>(api.module, id));
-        window.dispatchEvent(new Event("studyflow-resource-restored"));
-      } } });
+      notify("Item deleted.", {
+        action: {
+          label: "Undo", run: async () => {
+            await mutate(() => restoreResource<T>(api.module, id));
+            window.dispatchEvent(new Event("studyflow-resource-restored"));
+          }
+        }
+      });
     },
   };
 }

@@ -16,7 +16,6 @@ from app.api.v1.settings import router as settings_router
 from app.api.v1.timer import router as timer_router
 from app.schemas.api import ApiFailure
 
-# Versioned public contract; frontend proxy and typed clients use the same paths.
 ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
     code: {"model": ApiFailure, "description": description}
     for code, description in {

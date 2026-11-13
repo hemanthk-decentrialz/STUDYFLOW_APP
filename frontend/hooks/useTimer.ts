@@ -40,7 +40,7 @@ export default function useTimer() {
         (previous.timeLeft > 0
           ? previous.timeLeft
           : durations[previous.mode]) *
-          1000,
+        1000,
     }));
   }
 
@@ -49,12 +49,12 @@ export default function useTimer() {
       const timeLeft =
         previous.endAt && previous.isRunning
           ? Math.max(
-              0,
-              Math.ceil(
-                (previous.endAt - Date.now()) /
-                  1000
-              )
+            0,
+            Math.ceil(
+              (previous.endAt - Date.now()) /
+              1000
             )
+          )
           : previous.timeLeft;
 
       return {

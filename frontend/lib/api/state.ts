@@ -21,7 +21,7 @@ export function getEntry<T>(userId: string, key: string, initial: T): Entry<T> {
   const cacheKey = `user:${userId}:${key}`;
   let entry = entries.get(cacheKey) as Entry<T> | undefined;
   if (!entry) {
-    // Start from the known default; authenticated GET is the source of truth.
+    // Use defaults until the authenticated GET resolves.
     entry = { key, cacheKey, value: initial, loaded: false, active: true,
       listeners: new Set(), pending: [], version: 0, savedVersion: 0 };
     entries.set(cacheKey, entry as Entry<unknown>);
@@ -178,7 +178,7 @@ async function performReset(resetRequest: () => Promise<unknown>): Promise<void>
   resetting = true;
   window.dispatchEvent(new CustomEvent("studyflow-reset-state", { detail: true }));
   try {
-    // Let already-sent snapshots finish before reset; block new writes during reset.
+    // Drain pending saves before reset and reject new writes until it finishes.
     await Promise.allSettled([...entries.values()].flatMap((entry) =>
       [entry.loading, entry.saving].filter((promise) => promise !== undefined)));
     for (const entry of entries.values()) {

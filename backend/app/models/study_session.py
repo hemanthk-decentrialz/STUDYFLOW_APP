@@ -10,7 +10,7 @@ from app.models.soft_delete import SoftDeleteRecord
 
 
 class StudySession(OwnedRecord, SoftDeleteRecord, Base):
-    # The existing frontend generates Date.now() IDs, which exceed PostgreSQL INTEGER.
+    # Date.now() IDs need BIGINT rather than INTEGER.
     goal_id: Mapped[int | None] = mapped_column(sa.BigInteger, nullable=True)
     __table_args__ = (
         sa.ForeignKeyConstraint(

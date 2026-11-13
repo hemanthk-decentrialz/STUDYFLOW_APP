@@ -31,7 +31,7 @@ class TodayData(TypedDict):
 class DashboardRepository(OwnedRepository):
     async def summary_counts(self) -> dict[str, int | str]:
         logger.debug("repository_operation operation=summary_counts")
-        # One SQL statement gives a consistent summary snapshot for this user.
+        # Read the counters from one database snapshot.
         statement = select(
             select(func.count())
             .select_from(StudySession)

@@ -45,7 +45,7 @@ The normal journey is signup -> login -> create a course -> plan sessions, write
 | components/timer/{TimerTicker,StudyNotifications}.tsx | Countdown, completion and reminder effects |
 | types/, utils/ | API DTOs, formatting and default state |
 
-I reuse these modules rather than creating duplicate API wrappers or state stores.
+I reuse these modules rather than creating duplicate API wrappers or state stores. I keep spacing and indentation consistent, trim redundant blank lines and reserve comments for behavior that is not obvious from the code. Formatting changes must preserve JSX text, string literals and framework directives.
 
 ## API integration
 

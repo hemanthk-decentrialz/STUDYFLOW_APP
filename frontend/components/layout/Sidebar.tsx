@@ -6,20 +6,26 @@ import { useAuth } from "@/context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faCalendarDays, faNoteSticky, faClock, faBullseye, faGear, faUser, faXmark, faGraduationCap, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 const groups = [
-  { title: "Plan & focus", items: [
-    { title: "Today", href: "/", icon: faHouse },
-    { title: "Planner", href: "/planner", icon: faCalendarDays },
-    { title: "Goals", href: "/goals", icon: faBullseye },
-    { title: "Focus timer", href: "/timer", icon: faClock },
-  ] },
-  { title: "Study library", items: [
-    { title: "Courses", href: "/courses", icon: faBookOpen },
-    { title: "Notes", href: "/notes", icon: faNoteSticky },
-  ] },
-  { title: "Account", items: [
-    { title: "Profile", href: "/profile", icon: faUser },
-    { title: "Settings", href: "/settings", icon: faGear },
-  ] },
+  {
+    title: "Plan & focus", items: [
+      { title: "Today", href: "/", icon: faHouse },
+      { title: "Planner", href: "/planner", icon: faCalendarDays },
+      { title: "Goals", href: "/goals", icon: faBullseye },
+      { title: "Focus timer", href: "/timer", icon: faClock },
+    ]
+  },
+  {
+    title: "Study library", items: [
+      { title: "Courses", href: "/courses", icon: faBookOpen },
+      { title: "Notes", href: "/notes", icon: faNoteSticky },
+    ]
+  },
+  {
+    title: "Account", items: [
+      { title: "Profile", href: "/profile", icon: faUser },
+      { title: "Settings", href: "/settings", icon: faGear },
+    ]
+  },
 ];
 export default function Sidebar({ isOpen, isDesktop, desktopCollapsed, onClose }: {
   isOpen: boolean; isDesktop: boolean; desktopCollapsed: boolean; onClose: () => void;

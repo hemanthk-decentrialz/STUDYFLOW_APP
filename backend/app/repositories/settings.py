@@ -99,7 +99,7 @@ class SettingsRepository(OwnedRepository):
         return [dict(row) for row in (await self.session.execute(statement)).mappings()], total
 
     async def export_rows(self, model: type) -> AsyncIterator[dict[str, Any]]:
-        # Column projections omit ORM relationship/computed loads; each batch stays bounded.
+        # Export stored columns in batches without loading computed fields.
         columns = [column for column in model.__table__.columns if column.name != "user_id"]
         result = await self.session.stream(
             select(*columns).where(model.user_id == self.user_id).execution_options(yield_per=100)

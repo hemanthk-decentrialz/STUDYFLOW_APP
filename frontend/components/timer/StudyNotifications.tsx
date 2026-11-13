@@ -22,12 +22,12 @@ export default function StudyNotifications() {
     const unlock = () => {
       try {
         if (!audio.current && "AudioContext" in window) audio.current = new AudioContext();
-        if (audio.current?.state === "suspended") void audio.current.resume().catch(() => {});
+        if (audio.current?.state === "suspended") void audio.current.resume().catch(() => { });
       } catch { /* In-app feedback still works when audio is unavailable. */ }
     };
     window.addEventListener("pointerdown", unlock);
     window.addEventListener("keydown", unlock);
-    return () => { window.removeEventListener("pointerdown", unlock); window.removeEventListener("keydown", unlock); void audio.current?.close().catch(() => {}); audio.current = null; };
+    return () => { window.removeEventListener("pointerdown", unlock); window.removeEventListener("keydown", unlock); void audio.current?.close().catch(() => { }); audio.current = null; };
   }, []);
   useEffect(() => {
     if (!ready || !timer.lastCompletedAt || timer.lastCompletedAt === notified.current) return;

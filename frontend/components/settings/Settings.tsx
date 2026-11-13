@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import { FormEvent, useEffect, useState } from "react";
 
 import Link from "next/link";
@@ -26,11 +24,7 @@ import { DeletedResource, StudyFlowSettings } from "@/types/settings";
 
 import { formatDateTime } from "@/utils/formatDate";
 
-
-
 const resourceLabels = { courses: "Course", notes: "Note", goals: "Goal", "study-sessions": "Planner session" };
-
-
 
 function PreferencesForm({ settings, saving, onSave }: { settings: StudyFlowSettings; saving: boolean; onSave: (settings: StudyFlowSettings) => Promise<void> }) {
 
@@ -101,8 +95,6 @@ function PreferencesForm({ settings, saving, onSave }: { settings: StudyFlowSett
   </form>;
 
 }
-
-
 
 function RecentlyDeleted({ settings }: { settings: StudyFlowSettings }) {
 
@@ -195,8 +187,6 @@ function RecentlyDeleted({ settings }: { settings: StudyFlowSettings }) {
   </section></Card>;
 
 }
-
-
 
 export default function Settings() {
 

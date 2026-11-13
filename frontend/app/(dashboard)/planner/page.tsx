@@ -14,10 +14,10 @@ import { StudySession } from "@/types/planner";
 function PlannerPageContent({ initialQuery }: { initialQuery: ResourceQuery }) {
   const resources = useResourceList(plannerApi, initialQuery);
   const addSession = async (session: StudySession) => { await resources.create(session); };
-  const deleteSession = (id: number) => { void resources.remove(id).catch(() => {}); };
+  const deleteSession = (id: number) => { void resources.remove(id).catch(() => { }); };
   const toggleSession = (id: number) => {
     const session = resources.items.find((item) => item.id === id);
-    if (session) void resources.patch(id, { completed: !session.completed }).catch(() => {});
+    if (session) void resources.patch(id, { completed: !session.completed }).catch(() => { });
   };
   return <div>
     <ResourceControls title="Study planner" description="Organize your study sessions and track completion." module="planner" query={resources.query} data={resources.data}
@@ -27,7 +27,7 @@ function PlannerPageContent({ initialQuery }: { initialQuery: ResourceQuery }) {
       <fieldset disabled={resources.loading} className="planner-list">
         {!resources.loading && !resources.items.length && <p>No sessions in this view. Adjust your filters or plan a dated session using the form.</p>}
         {resources.items.map((session) => <PlannerCard key={session.id} session={session}
-          onDelete={deleteSession} onToggle={toggleSession} onGoal={(id, goalId) => { void resources.patch(id, { goalId }).catch(() => {}); }} onSchedule={(id, date) => { void resources.patch(id, { scheduledDate: date }).catch(() => {}); }} />)}
+          onDelete={deleteSession} onToggle={toggleSession} onGoal={(id, goalId) => { void resources.patch(id, { goalId }).catch(() => { }); }} onSchedule={(id, date) => { void resources.patch(id, { scheduledDate: date }).catch(() => { }); }} />)}
       </fieldset>
     </div>
   </div>;

@@ -33,7 +33,7 @@ if TEST_URL:
         safe_url = validate_test_database(TEST_URL, original_url, production=was_production)
     except ValueError as exc:
         CONFIG_ERROR = str(exc)
-# Even unit-only collection cannot accidentally initialize the app against .env's database.
+# Never initialize the app against the development database during collection.
 os.environ.update(
     DATABASE_URL=safe_url,
     APP_ENV="development",

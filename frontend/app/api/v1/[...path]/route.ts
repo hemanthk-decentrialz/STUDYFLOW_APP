@@ -30,7 +30,7 @@ async function proxy(request: NextRequest, context: Context): Promise<Response> 
     const value = request.headers.get(name);
     if (value) headers.set(name, value);
   }
-  // Enable only behind the documented ingress that OVERWRITES this header.
+  // Trust this header only when the ingress overwrites client-supplied values.
   if (process.env.TRUST_PROXY_HEADERS === "true") {
     const address = request.headers.get("x-forwarded-for");
     if (address) headers.set("x-forwarded-for", address);

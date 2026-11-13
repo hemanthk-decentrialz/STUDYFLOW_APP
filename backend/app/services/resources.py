@@ -51,7 +51,7 @@ class ResourceService[ModelT: Resource, ResponseT: BaseModel]:
     async def require_resource(self, resource_id: int) -> ModelT:
         record = await self.repository.get(resource_id)
         if record is None:
-            # Identical response for deleted, missing, and another user's records.
+            # Do not reveal whether another user owns this ID.
             raise ApiError(404, "Resource not found.")
         return record
 
@@ -64,7 +64,7 @@ class ResourceService[ModelT: Resource, ResponseT: BaseModel]:
         course = await self.repository.active_course(course_id)
         if course is None:
             raise ApiError(404, "Course not found.")
-        # IDs are authoritative; subject remains a compatibility label for existing clients.
+        # Keep the legacy subject label in sync with the selected course.
         values["subject"] = course.title
         if self.repository.model is StudySession:
             goal_id = values.get("goal_id", getattr(record, "goal_id", None))

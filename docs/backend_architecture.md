@@ -41,7 +41,7 @@ backend/
 | Today/dashboard aggregation | dashboard.py |
 | Reset acceptance and status | jobs.py; worker in tasks/resets.py |
 
-Controllers and schemas have corresponding feature files. I extend shared behavior within its existing layer instead of adding wrapper-only modules.
+Controllers and schemas have corresponding feature files. I extend shared behavior within its existing layer instead of adding wrapper-only modules. I use Ruff for consistent Python formatting and keep standard spacing between definitions. Comments explain constraints and edge cases; they do not repeat the code. Applied migrations retain their original contents.
 
 ## Data and transactions
 

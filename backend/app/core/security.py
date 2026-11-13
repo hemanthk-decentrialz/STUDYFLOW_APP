@@ -5,7 +5,7 @@ from pwdlib import PasswordHash
 from starlette.concurrency import run_in_threadpool
 
 password_hasher = PasswordHash.recommended()
-# Equalize the costly verification path when an email does not exist.
+# Verify a dummy hash for unknown emails to avoid a fast failure path.
 _dummy_hash = password_hasher.hash(token_urlsafe(32))
 
 

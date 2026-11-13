@@ -14,7 +14,7 @@ import { NoteInput } from "@/types/note";
 function NotesPageContent({ initialQuery }: { initialQuery: ResourceQuery }) {
   const resources = useResourceList(noteApi, initialQuery);
   const addNote = async (note: NoteInput) => resources.create(note);
-  const deleteNote = (id: number) => { void resources.remove(id).catch(() => {}); };
+  const deleteNote = (id: number) => { void resources.remove(id).catch(() => { }); };
   return <div>
     <ResourceControls title="Study notes" description="Read, edit and recover your course notes." module="notes" query={resources.query} data={resources.data}
       onChange={resources.setQuery} loading={resources.loading} error={resources.error} retry={resources.retry} />

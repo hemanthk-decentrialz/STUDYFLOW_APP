@@ -10,7 +10,7 @@ export default function useUserState<T>(key: string, initialValue: T) {
   const entry = useMemo(() => user && !isLoading
     ? getEntry(user.id, key, initial) : null, [user, isLoading, key, initial]);
   const subscribe = useCallback((listener: () => void) => {
-    if (!entry) return () => {};
+    if (!entry) return () => { };
     entry.listeners.add(listener);
     return () => { entry.listeners.delete(listener); };
   }, [entry]);

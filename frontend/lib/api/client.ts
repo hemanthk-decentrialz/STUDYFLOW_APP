@@ -58,7 +58,7 @@ export async function apiRequest<T>(
 
   if (!response.ok || !payload.ok) {
     if (response.status === 401 && requestGeneration === sessionGeneration &&
-        !endpoint.startsWith("/api/v1/sessions") && endpoint !== "/api/v1/users/me" && typeof window !== "undefined") {
+      !endpoint.startsWith("/api/v1/sessions") && endpoint !== "/api/v1/users/me" && typeof window !== "undefined") {
       window.dispatchEvent(new Event("studyflow-session-expired"));
     }
     throw new ApiRequestError(

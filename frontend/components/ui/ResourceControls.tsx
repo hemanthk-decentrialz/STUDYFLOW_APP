@@ -42,8 +42,8 @@ export default function ResourceControls({ title, description, module, query, da
     : ["position", "title", "subject", ...(module === "goals" ? ["deadline", "progress"] : []), "created_at", "updated_at"];
   const orderLabels = ["title", "subject"].includes(query.sort_by ?? "") ? ["A to Z", "Z to A"]
     : ["scheduled_date", "time", "deadline", "created_at", "updated_at"].includes(query.sort_by ?? "") ? ["Earliest first", "Latest first"]
-    : query.sort_by === "completed" ? ["Pending first", "Completed first"]
-    : query.sort_by === "position" || !query.sort_by ? ["Oldest first", "Newest first"] : ["Lowest first", "Highest first"];
+      : query.sort_by === "completed" ? ["Pending first", "Completed first"]
+        : query.sort_by === "position" || !query.sort_by ? ["Oldest first", "Newest first"] : ["Lowest first", "Highest first"];
   const offsetCap = (query.page ?? 1) * (query.limit ?? 10) > 10000;
   const close = () => { setOpen(false); trigger.current?.focus(); };
   const reset = () => onChange({ page: 1, limit: query.limit ?? 10, sort_by: "position", order: "asc" });

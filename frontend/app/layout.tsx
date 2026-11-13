@@ -18,36 +18,20 @@ const themeInitializationScript = `
   } catch {}
 `;
 
-export default function RootLayout({ children,}: Readonly<{
+export default function RootLayout({ children, }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      data-scroll-behavior="smooth"
-      suppressHydrationWarning
-    >
-
-    <head>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: themeInitializationScript,
-        }}
-      />
-    </head>
-
-    <body>
-
-    <AuthProvider>
-
-    <ThemeInitializer />
-
-    {children}
-
-    </AuthProvider>
-
-    </body>
-
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitializationScript, }} />
+      </head>
+      <body>
+        <AuthProvider>
+          <ThemeInitializer />
+          {children}
+        </AuthProvider>
+      </body>
     </html>
   );
 }
