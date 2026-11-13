@@ -35,14 +35,14 @@ export default function DataSyncStatus() {
   useEffect(() => { if (confirmation && dialog.current && !dialog.current.open) dialog.current.showModal(); }, [confirmation]);
   const close = (result: boolean) => { confirmation?.resolve(result); dialog.current?.close(); setConfirmation(null); };
   return <>
-    {message && <div role="alert" className="feedback-error"><p>{message}</p><button type="button" onClick={async () => { try { await retryPendingState(); setMessage(""); } catch { /* Keep the error visible. */ } }}>Retry sync</button></div>}
-    <div className="feedback-stack" aria-label="Activity feedback">{notices.map((notice) => <div key={notice.id} role={notice.error ? "alert" : "status"} className="feedback-notice">
-      <p>{notice.message}</p><div className="flex gap-4 mt-2">{notice.action && <button disabled={pending === notice.id} onClick={async () => {
+    {message && <div role="alert" className="feedback-error"><p className="hardware-badge hardware-error"><span className="hardware-led" aria-hidden="true" /><span>{message}</span></p><button type="button" onClick={async () => { try { await retryPendingState(); setMessage(""); } catch { /* Keep the error visible. */ } }}>Retry sync</button></div>}
+    <div className="feedback-stack" aria-label="Activity feedback">{notices.map((notice) => <div key={notice.id} role={notice.error ? "alert" : "status"} className={`feedback-notice${notice.error ? " feedback-notice-error" : ""}`}>
+      <p className={`hardware-badge${notice.error ? " hardware-error" : ""}`}><span className="hardware-led" aria-hidden="true" /><span>{notice.message}</span></p><div className="flex gap-4 mt-2">{notice.action && <button disabled={pending === notice.id} onClick={async () => {
         setPending(notice.id); try { await notice.action!.run(); setNotices((items) => items.filter((item) => item.id !== notice.id)); }
         catch (failure) { notify(failure instanceof Error ? failure.message : "Unable to complete this action. Try again.", { error: true }); }
         finally { setPending(null); }
       }}>{pending === notice.id ? "Working…" : notice.action.label}</button>}<button disabled={pending === notice.id} aria-label={`Dismiss: ${notice.message}`} onClick={() => setNotices((items) => items.filter((item) => item.id !== notice.id))}>Dismiss</button></div>
     </div>)}</div>
-    {confirmation && <dialog ref={dialog} className="feedback-dialog" aria-labelledby="confirmation-title" onCancel={(event) => { event.preventDefault(); close(false); }}><h2 id="confirmation-title">Confirm data reset</h2><p>{confirmation.message}</p><div className="flex justify-end gap-4 mt-6"><button autoFocus onClick={() => close(false)}>Cancel</button><button className="text-(--danger)" onClick={() => close(true)}>Delete study data</button></div></dialog>}
+    {confirmation && <dialog ref={dialog} className="feedback-dialog" aria-labelledby="confirmation-title" onCancel={(event) => { event.preventDefault(); close(false); }}><h2 id="confirmation-title">Confirm data reset</h2><p>{confirmation.message}</p><div className="flex justify-end gap-4 mt-6"><button autoFocus onClick={() => close(false)}>Cancel</button><button className="quiet-action quiet-danger" onClick={() => close(true)}>Delete study data</button></div></dialog>}
   </>;
 }

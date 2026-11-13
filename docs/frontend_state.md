@@ -67,7 +67,7 @@ Backend schemas are authoritative. I update DTOs, clients, hooks and UI together
 
 AuthContext verifies identity with users/me; local markers are not credentials. Login creates an HTTPOnly cookie, and logout revokes it.
 
-Refresh can resume a verified tab. Fresh navigation asks for login again; cross-tab auth signals and restored-page handling invalidate stale client state. Closing a tab does not itself revoke the backend session.
+I resume a tab using its sessionStorage marker and verify its cookie with users/me, without depending on PerformanceNavigationTiming. Refresh keeps the current route. A new tab without a marker asks for login; cross-tab account changes invalidate stale state. A restored page rechecks the session. Temporary network/server failures show a retry state on the same page instead of clearing a valid marker; 401 clears it. Closing a tab does not itself revoke the backend session.
 
 ### Lists and relationship pickers
 
@@ -95,20 +95,28 @@ History uses recorded intervals and timezone-aware weekly totals. Manual goal pr
 
 StudyNotifications polls enabled reminders every 30 seconds, handles timer feedback/sound and deduplicates delivery by account/resource/due time using storage/locks when available. Sound needs a user gesture. Old delivery markers are pruned.
 
-Reminders require an open application. Browser notifications additionally need explicit device permission/support. Goal deadlines use 09:00 in the chosen zone, with lead time applied before it.
+Reminders require an open application. Allow browser notifications requests permission on the current device; it does not enable reminder preferences or closed-site delivery. I enable session/deadline reminders separately and save preferences. Foreground delivery uses in-app feedback; a supported, permitted background tab can show a system notification. Goal deadlines use 09:00 in the chosen zone, with lead time applied before it.
 
-Export uses authenticated blob transport. Recently deleted reuses restore endpoints. Reset confirms permanent deletion, follows the persisted job, clears relevant device state and reloads while retaining account/preferences. Backup import and closed-site delivery are not implemented.
+Export uses authenticated blob transport and an icon-only download button with an accessible label and tooltip. The backend produces indented UTF-8 JSON, which is plain text readable in an editor; I keep the .json extension to identify its structured format. Recently deleted reuses restore endpoints. Reset confirms permanent deletion, follows the persisted job, clears relevant device state and reloads while retaining account/preferences. Backup import and closed-site delivery are not implemented.
 
 ## Visual system and navigation
 
-I use paper-toned surfaces, ink-blue actions, editorial headings and system UI text. globals.css owns light/dark tokens and shared styling; the installed fonts/icons avoid external assets. References for the direction were [Sunsama](https://www.sunsama.com/), [Things](https://culturedcode.com/things/) and [Craft](https://www.craft.do/), without copying their assets.
+I use the Outrun Studio theme: sunwashed peach canvas (#F5E2DC), seashell cards (#FCF3F0), charcoal text (#1E242B), teal actions (#0F766E) and terracotta borders (#DFC1B8) in light mode; green-black canvas (#0C1713), emerald cards (#13241E), mint text (#D1FAE5), phosphor-green actions (#34D399) and matrix borders (#223F35) in dark mode. globals.css owns shared tokens, hover states and status roles. I use a local JetBrains Mono / Space Mono / system monospace stack for headings and hardware-style feedback, with system UI text for reading. No font download is required; a named font appears only when installed.
 
 - Desktop navigation collapses; mobile has shortcuts and a drawer with Escape, focus handling and an inert background.
 - Filters are a labelled disclosure beside the title.
+- Hover states use shared teal/phosphor-green accent tokens in both themes, with red feedback for destructive actions and visible keyboard focus. Disabled controls do not use active hover states.
+- Related-resource links are compact labeled controls without diagonal arrows; the header profile link has a button border and hover state. Today has no extra Plan a session action beside its heading.
 - Resource forms share a form/content grid that stacks on narrow screens.
 - Notes use a reading layout; the timer has one dominant clock.
-- Goal progress remains red below 40%, amber from 40%, blue from 70%, green at 100%; zero is empty.
-- Primary/muted text and button contrast pairs were checked in both themes, without claiming complete accessibility certification.
+- Goal progress retains its thresholds: red below 40%, amber from 40%, the primary teal/phosphor-green from 70%, a separate completion green at 100%; zero is empty.
+- Sync success uses dedicated electric-cyan tokens (#0284C7 / #38BDF8), reset progress uses amber (#D97706 / #FBBF24), and destructive feedback uses rose (#E11D48 / #FB7185). I keep completion green separate from sync blue so a palette change does not blur those roles. Darker light-mode status text keeps small labels readable while preserving those accent colours.
+- Primary text, muted text, primary-button labels and status-text/card pairs were checked at 4.5:1 or better in both themes. This is a targeted contrast check, not complete accessibility certification.
+- The initial auth guard uses Loading Studyflow, not dashboard-specific copy. I defer only its visible spinner/text by 200 ms to avoid flashes on fast login redirects; I do not add a minimum wait or render protected content before verification. After authentication, each page keeps its own data-loading message.
+- Cards and primary buttons use crisp 1.5px borders and 2px hard offset shadows instead of blurry elevation.
+- Sync/error notices use an 8px LED dot and monospace bordered badge. Reset progress uses an amber LED; destructive actions use rose.
+- The full-page loader uses animated accent-coloured segments on the canvas background. It is indeterminate and has no fabricated percentage; its progressbar label and status text remain accessible and reduced-motion preferences are respected.
+- Pickers, feedback notices and reset overlays share the same palette rather than hardcoded blue or white surfaces.
 
 I keep one same-purpose destination per card/state. Today's empty plan has Add a session, without an extra Open planner footer. View all sessions appears only for a shortened summary. The deadlines card has one goals link. The sidebar account footer is informational, and Profile no longer repeats the email inside Account details.
 

@@ -94,7 +94,7 @@ The suite raises ordinary API rate limits only inside its test process to avoid 
 
 I verify relation ownership as well as resource ownership: a note needs an active owned course, a planner session's goal must belong to that course, and a nonempty course cannot be removed. Soft-deleted records disappear from normal lists, appear in the owned trash and can be restored unless their parent or unique title conflicts. Deleting a goal unlinks planner sessions. Note versions protect edits, deletion and restoration from stale drafts.
 
-Timer tests move persisted timestamps rather than sleep through a Pomodoro. I verify one completion is counted once, clients cannot forge completion counters or shorten a new interval to earn study time, stale revisions fail, and breaks produce no focus records. Export tests verify deleted study data is included while account credentials/sessions are excluded. Reset tests execute native BackgroundTasks through the ASGI response and verify another account remains intact.
+Timer tests move persisted timestamps rather than sleep through a Pomodoro. I verify one completion is counted once, clients cannot forge completion counters or shorten a new interval to earn study time, stale revisions fail, and breaks produce no focus records. Export tests verify line breaks/indentation, valid JSON, included deleted study data and excluded credentials/sessions. The focused settings/timer/export suite passed all 13 tests after this formatting change. Reset tests execute native BackgroundTasks through the ASGI response and verify another account remains intact.
 
 ## Manual website acceptance checklist
 
@@ -103,7 +103,7 @@ I start PostgreSQL and both development servers using the README, then open `htt
 | Area | What I do | What I expect |
 | --- | --- | --- |
 | Account access | Sign up with a weak password, then valid credentials; try a wrong password and then sign in correctly | Clear validation/errors; successful login opens Today; no password appears in response data |
-| Session behavior | Refresh an authenticated tab, then open the website through a fresh navigation/new tab | Refresh preserves verified access; a fresh visit asks for login. Closing the tab alone does not revoke its server session |
+| Session behavior | Refresh an authenticated tab, then open the website in a new tab without its session marker | Refresh preserves verified access and the current route; a new tab without a marker asks for login. A temporary verification outage offers retry; logout/401 clears access |
 | Courses | Create PostgreSQL and Python courses; edit a title; attempt a duplicate | Saved changes survive refresh; linked resource labels follow renames; duplicate names are rejected |
 | Course picker | Select a course, search by part of its name, use arrows/Enter/Escape | One searchable picker; a saved relationship requires a real course selection |
 | Planner | Add a dated session for today, complete it, edit its date/time and link an appropriate goal | Today and planner agree; completion persists; a goal from another course is rejected |
@@ -116,11 +116,12 @@ I start PostgreSQL and both development servers using the README, then open `htt
 | Reminders | Enable session reminders and create a session within the lead-time window | An open app shows one reminder for the due item; device notifications need browser permission and sound may need a user gesture |
 | Profile/navigation | Update my display name, open Profile from header/sidebar, collapse desktop navigation and use the mobile drawer | Name changes persist; each navigation action works; keyboard Escape closes the drawer |
 | Delete/restore | Delete a note, use Undo, delete again and restore from Settings > Recently deleted | The record is removed from normal lists and actually restored by the backend; conflicting titles/parents show an actionable error |
-| Export | Download JSON and inspect it locally | My study data, preferences and deleted records are present; passwords and auth sessions are absent |
+| Export | Download JSON and inspect it locally | The download icon has an accessible label; the file is indented JSON containing my study data, preferences and deleted records, without passwords or auth sessions |
 | Reset | Only in a disposable account, confirm Reset Application and wait for completion | Study data/history is permanently cleared; account and preferences remain; another account is unaffected |
 | Logout/permissions | Log out and try a protected API; in another browser profile log in as another account and request an owned resource ID | Logged-out API returns 401; foreign resources return 404 and cannot be modified or deleted |
 | Failure recovery | Stop the backend, attempt a read/save, restart it and retry | Useful error/pending feedback; unsaved text is retained; retry recovers without a false Saved message |
-| Layout/accessibility | Repeat key flows in light/dark themes and narrow/wide layouts; navigate using Tab | No clipped forms or horizontal overflow; visible focus, readable labels and usable controls |
+| Layout/accessibility | Repeat key flows in sunwashed-peach light/phosphor-terminal dark themes and narrow/wide layouts; navigate using Tab | Canvas, cards, pickers, loaders and reset feedback share the palette; hover/focus and success/warning/error states stay readable |
+| First visit | Open localhost:3000 in a new tab without a session marker | Redirect to login without dashboard-specific copy; slower startup says Loading Studyflow, while a fast redirect avoids flashing loader contents |
 
 For each failed case, I record the page, steps, expected/actual result and HTTP status without attaching passwords, cookies or private exports. I do not mark manual acceptance complete until I have actually performed the checks. Automated backend tests do not certify every browser interaction.
 

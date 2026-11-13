@@ -21,7 +21,7 @@ type Props = {
 export default function PlannerCard({ session, onDelete, onToggle, onSchedule, onGoal }: Props) {
   const [linking, setLinking] = useState(false);
   const { settings } = usePreferences();
-  const priorityColor = session.priority === "High" ? "var(--danger)" : session.priority === "Medium" ? "var(--warning)" : "var(--success)";
+  const priorityColor = session.priority === "High" ? "var(--danger-text)" : session.priority === "Medium" ? "var(--warning-text)" : "var(--success-text)";
   return <Card className={`planner-card${session.completed ? " opacity-80" : ""}`}>
     <div className="planner-card-top"><div className="planner-card-title">
       <button type="button" className="planner-complete" aria-pressed={session.completed} aria-label={`${session.completed ? "Mark pending" : "Complete"} ${session.subject}`} onClick={() => onToggle(session.id)}>{session.completed && <FontAwesomeIcon icon={faCheck} aria-hidden="true" />}</button>
@@ -32,7 +32,7 @@ export default function PlannerCard({ session, onDelete, onToggle, onSchedule, o
     </div>
     <button type="button" className="quiet-action" aria-expanded={linking} onClick={() => setLinking(!linking)}>{linking ? "Close goal selector" : session.goalId ? "Change linked goal" : "Link a goal"}</button>
     {linking && <div className="mt-3"><GoalSelect courseId={session.courseId} value={session.goalId} onChange={(goalId) => onGoal(session.id, goalId)} /></div>}
-    <div className="planner-footer"><div className="course-links"><Link href={`/notes?course_id=${session.courseId}`}>Course notes ↗</Link>{session.goalId && <Link href={`/goals?course_id=${session.courseId}&goal_id=${session.goalId}`}>Linked goal ↗</Link>}<span className="text-muted">{session.completed ? "Completed" : "Pending"}</span></div>
+    <div className="planner-footer"><div className="course-links"><Link href={`/notes?course_id=${session.courseId}`}>Course notes</Link>{session.goalId && <Link href={`/goals?course_id=${session.courseId}&goal_id=${session.goalId}`}>Linked goal</Link>}<span className="text-muted">{session.completed ? "Completed" : "Pending"}</span></div>
       <button type="button" className="quiet-action quiet-danger" onClick={() => onDelete(session.id)}><FontAwesomeIcon icon={faTrash} aria-hidden="true" />Delete</button>
     </div>
   </Card>;

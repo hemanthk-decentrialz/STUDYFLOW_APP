@@ -3,6 +3,8 @@
 import { FormEvent, useEffect, useState } from "react";
 
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 import { confirmAction, notify } from "@/components/ui/DataSyncStatus";
 
@@ -222,7 +224,7 @@ export default function Settings() {
 
       const url = URL.createObjectURL(data);
 
-      const link = document.createElement("a"); link.href = url; link.download = `studyflow-${new Date().toISOString().slice(0, 10)}.json`;
+      const link = document.createElement("a"); link.href = url; link.download = `studyflow-export-${new Date().toISOString().slice(0, 10)}.json`;
 
       document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 30000);
 
@@ -258,7 +260,7 @@ export default function Settings() {
 
     <PreferencesForm key={JSON.stringify(settings)} settings={settings} saving={saving || resetting} onSave={save} />
 
-    <Card><section className="settings-section settings-row" aria-labelledby="export-heading"><div><h2 id="export-heading">Data export</h2><p className="text-muted text-sm mt-2">Download your study data as JSON.</p></div><Button type="button" variant="secondary" className="settings-action" loading={exporting} disabled={resetting || saving} onClick={() => { void download(); }}>Download JSON</Button></section></Card>
+    <Card><section className="settings-section settings-row" aria-labelledby="export-heading"><div><h2 id="export-heading">Data export</h2><p className="text-muted text-sm mt-2">Download your study data as JSON.</p></div><Button type="button" variant="secondary" className="settings-action settings-download" aria-label="Download study data as JSON" title="Download study data" loading={exporting} disabled={resetting || saving} onClick={() => { void download(); }}>{!exporting && <FontAwesomeIcon icon={faDownload} aria-hidden="true" />}</Button></section></Card>
 
     <RecentlyDeleted settings={settings} />
 

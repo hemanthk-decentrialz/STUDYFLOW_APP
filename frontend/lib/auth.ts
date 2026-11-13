@@ -18,9 +18,9 @@ export function getSession(): SessionUser | null {
 }
 
 export function canResumeSession(): boolean {
-  if (typeof window === "undefined" || !getSession()) return false;
-  const navigation = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
-  return authenticatedInThisDocument || navigation?.type === "reload";
+  if (typeof window === "undefined") return false;
+  // A verified tab marker survives refresh without depending on navigation timing support.
+  return authenticatedInThisDocument || getSession() !== null;
 }
 
 export function saveSession(user: SessionUser): void {

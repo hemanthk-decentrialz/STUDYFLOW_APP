@@ -14,7 +14,7 @@ I built Studyflow with a Next.js frontend and an asynchronous FastAPI backend. P
 - **Settings:** theme, calendar preferences, reminders, JSON export, Recently deleted and study-data reset.
 - **Profile:** display-name editing, account details and sign-out.
 
-The interface supports desktop/mobile layouts, collapsible navigation, light/dark themes, searchable course selection and contextual filters.
+The interface supports desktop/mobile layouts, collapsible navigation, searchable course selection and contextual filters. I use the Outrun Studio theme: sunwashed peach/seashell surfaces and retro teal actions in light mode; CRT green-black/emerald surfaces and phosphor-green actions in dark mode. Crisp borders, offset shadows, monospace status badges and a segmented loader give the workspace its terminal-inspired character. Sync feedback stays cyan, reset progress amber and destructive actions rose.
 
 ## Stack
 
@@ -158,7 +158,7 @@ Create an account, sign in, add a course, then create sessions, notes and goals.
 
 In Swagger, execute `POST /api/v1/sessions`, then `GET /api/v1/users/me`. The browser sends the cookie automatically. There is no JWT/Bearer token to paste into Authorize. Use consistent hostnames when sharing browser cookies.
 
-Refreshing an authenticated frontend tab preserves its verified login. A fresh navigation asks for login again. This frontend policy does not revoke the server session when a tab closes; logout explicitly revokes it.
+Refreshing an authenticated tab verifies the cookie and keeps the current page. I use a tab-scoped marker rather than depending on browser navigation timing. A new tab without that marker asks for login; temporary verification failures offer retry on the current page. Closing a tab does not revoke the server session; logout explicitly revokes it.
 
 ## Development checks
 
@@ -195,7 +195,7 @@ I never point test cleanup at my development database. Without a test database, 
 | --- | --- |
 | Timer completion | Stops at 00:00; does not automatically reset or start another mode. |
 | Reminders | Open-app delivery only; browser notifications also need device permission/support. |
-| Export | JSON download includes deleted study records; excludes credentials/auth sessions. Import is not implemented. |
+| Export | Pretty-printed JSON text download includes deleted study records; excludes credentials/auth sessions. Import is not implemented. |
 | Deletion | Study resources are soft-deleted/restorable. Reset permanently removes study data/history while preserving the account/preferences. |
 | Rate limits | Per-process memory, not shared across backend workers. |
 | Background work | Native tasks with persisted reset jobs/recovery; no external worker queue. |

@@ -96,18 +96,18 @@ export default function LoginForm() {
           </div>
         </div>
         {error && (
-          <p className="text-sm font-medium text-red-500">
+          <p className="text-sm font-medium status-error">
             {error}
           </p>
         )}
-        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-white transition hover:opacity-90">
+        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-(--on-primary) transition hover:opacity-90">
           Login
         </button>
       </form>
       <div className="mt-8 text-center">
         <p className="text-muted text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-semibold text-blue-600 hover:underline">
+          <Link href="/signup" className="font-semibold text-(--primary) hover:underline">
             Sign Up
           </Link>
         </p>

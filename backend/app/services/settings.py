@@ -95,7 +95,8 @@ class SettingsService:
 
         try:
             await write(
-                '{"formatVersion":1,"exportedAt":' + json.dumps(datetime.now(UTC).isoformat())
+                '{\n  "formatVersion": 1,\n  "exportedAt": '
+                + json.dumps(datetime.now(UTC).isoformat())
             )
             for name, model in (
                 ("preferences", Settings),
@@ -106,16 +107,19 @@ class SettingsService:
                 ("focusSessions", FocusSession),
                 ("timer", Timer),
             ):
-                await write(',"' + name + '":[')
+                await write(',\n  "' + name + '": [')
                 first = True
                 async for row in self.repository.export_rows(model):
                     await write(
-                        ("" if first else ",")
-                        + json.dumps(row, default=str, ensure_ascii=False, allow_nan=False)
+                        ("\n" if first else ",\n")
+                        + "    "
+                        + json.dumps(
+                            row, default=str, ensure_ascii=False, allow_nan=False, indent=2
+                        ).replace("\n", "\n    ")
                     )
                     first = False
-                await write("]")
-            await write("}")
+                await write("]" if first else "\n  ]")
+            await write("\n}\n")
             if buffer:
                 await asyncio.to_thread(output.write, bytes(buffer))
             await asyncio.to_thread(output.seek, 0)

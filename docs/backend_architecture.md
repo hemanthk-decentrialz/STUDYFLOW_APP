@@ -155,7 +155,7 @@ Reminders query unfinished active sessions/goals in an indexed date window using
 
 Recently deleted uses a bounded SQL union over the four soft-deleted resource types. Restore reuses the existing services, including duplicate and parent validation.
 
-Export holds the owner lock, reads bounded batches and prepares a temporary JSON file with file I/O off the event loop. Database work completes before headers; downloads read 64 KiB chunks and close the file. Deleted study records/preferences are included, credentials/auth sessions excluded. Import is not implemented; the proxy timeout remains 30 seconds.
+Export holds the owner lock, reads bounded batches and prepares an indented UTF-8 JSON text file with file I/O off the event loop. I format each row as it streams rather than loading the entire export into memory. Database work completes before headers; downloads read 64 KiB chunks and close the file. Deleted study records/preferences are included, credentials/auth sessions excluded. Import is not implemented; the proxy timeout remains 30 seconds.
 
 Reset persists an owned job, returns its status/polling location and dispatches native background work. The worker atomically deletes timer, focus history, planner, notes, goals and courses while retaining the account, preferences and job status. Recovery processes queued jobs; this is not an external queue.
 

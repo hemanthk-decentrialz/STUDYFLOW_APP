@@ -22,7 +22,7 @@ export default function DataResetMonitor() {
     return () => { active = false; window.removeEventListener("studyflow-reset-state", changed); };
   }, []);
   if (!pending) return null;
-  return <div role="status" aria-live="polite" className="fixed inset-0 z-50 grid place-items-center bg-black/60 p-6">
-    <div className="rounded-2xl bg-white p-8 text-black">Resetting your study data. Please wait…</div>
+  return <div role="status" aria-live="polite" className="reset-overlay fixed inset-0 z-50 grid place-items-center p-6">
+    <div className="reset-panel"><span className="hardware-badge hardware-warning"><span className="hardware-led" aria-hidden="true" />RESET IN PROGRESS</span><p>Resetting your study data. Please wait...</p></div>
   </div>;
 }

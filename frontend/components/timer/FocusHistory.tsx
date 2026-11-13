@@ -54,7 +54,7 @@ export default function FocusHistory({ compact = false }: { compact?: boolean })
     {!compact && <><div className="mt-8 max-w-md"><CourseSelect label="History course filter" value={courseId} onChange={(id) => { setCourseId(id); setPage(1); }} /></div><h3 className="font-semibold mt-6 mb-3">Focus intervals</h3><p className="text-muted text-xs mb-4">Pausing ends an interval. Resuming starts another. Breaks are excluded; partial focus time is retained.</p>
       <ul className="focus-intervals">{history?.items.map((record) => <li key={record.id}><div><strong>{record.courseTitle}</strong><p>{formatDateTime(record.startedAt, settings)} · {record.outcome}</p></div><span>{duration(record.seconds)}</span></li>)}</ul>
       {!loading && history?.total === 0 && <p className="text-muted">No focus intervals match this view.</p>}
-      {history && history.total_pages > 1 && <div className="flex items-center justify-between gap-4 mt-5 text-sm"><button disabled={loading || page <= 1} onClick={() => setPage((value) => value - 1)}>Previous</button><span>{page} / {history.total_pages}</span><button disabled={loading || page >= (history?.total_pages ?? 0) || page * 10 > 10000} onClick={() => setPage((value) => value + 1)}>Next</button></div>}
+      {history && history.total_pages > 1 && <div className="resource-pagination mt-5 text-sm"><button disabled={loading || page <= 1} onClick={() => setPage((value) => value - 1)}>Previous</button><span>{page} / {history.total_pages}</span><button disabled={loading || page >= (history?.total_pages ?? 0) || page * 10 > 10000} onClick={() => setPage((value) => value + 1)}>Next</button></div>}
     </>}
   </section>;
 }

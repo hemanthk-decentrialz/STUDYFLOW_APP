@@ -118,7 +118,7 @@ export default function SignupForm() {
           </div>
         </div>
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600 dark:border-red-900 dark:bg-red-950/40 dark:text-red-400">
+          <div className="feedback-error status-error">
             {error}
           </div>
         )}
@@ -127,14 +127,14 @@ export default function SignupForm() {
             {success}
           </div>
         )}
-        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-white transition hover:opacity-90">
+        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-(--on-primary) transition hover:opacity-90">
           Create Account
         </button>
       </form>
       <div className="mt-8 text-center">
         <p className="text-muted text-sm">
           Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-blue-600 transition hover:underline">
+          <Link href="/login" className="font-semibold text-(--primary) transition hover:underline">
             Login
           </Link>
         </p>

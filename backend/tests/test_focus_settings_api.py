@@ -89,6 +89,9 @@ async def test_preferences_partial_update_and_export(actor):
     await actor.request("DELETE", "/notes/2", status=204)
     response = await actor.client.get("/api/v1/data-exports")
     assert response.status_code == 200 and "attachment" in response.headers["content-disposition"]
+    assert response.text.startswith('{\n  "formatVersion": 1,')
+    assert '\n  "notes": [\n    {' in response.text
+    assert response.text.endswith("\n}\n")
     exported = response.json()
     assert len(exported["notes"]) == 1
     assert "password" not in response.text and "token_hash" not in response.text

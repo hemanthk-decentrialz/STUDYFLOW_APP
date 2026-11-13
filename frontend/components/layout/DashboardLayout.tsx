@@ -72,7 +72,7 @@ export default function DashboardLayout({
       {mobileOpen && (
         <div
           onClick={closeSidebar}
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-40 bg-(--overlay) backdrop-blur-sm"
         />
       )}
 

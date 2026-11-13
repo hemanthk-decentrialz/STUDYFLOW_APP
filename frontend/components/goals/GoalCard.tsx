@@ -24,7 +24,7 @@ export default function GoalCard({ goal, onProgressChange, onDelete }: GoalCardP
     <ProgressBar progress={goal.progress} />
     <label className="goal-manual">Set manual progress<input type="range" min={0} max={100} step={10} value={goal.progress} onChange={(event) => onProgressChange(goal.id, Number(event.target.value))} aria-label={`Progress for ${goal.title}`} /></label>
     <p className="goal-contributions">{goal.completedSessionCount ?? 0} of {goal.linkedSessionCount ?? 0} linked sessions complete.</p>
-    <div className="course-links"><Link href={`/planner?course_id=${goal.courseId}&goal_id=${goal.id}`}>Linked sessions ↗</Link><Link href={`/notes?course_id=${goal.courseId}`}>Course notes ↗</Link></div>
+    <div className="course-links"><Link href={`/planner?course_id=${goal.courseId}&goal_id=${goal.id}`}>Linked sessions</Link><Link href={`/notes?course_id=${goal.courseId}`}>Course notes</Link></div>
     <div className="goal-actions"><Button variant="danger" onClick={() => onDelete(goal.id)}><FontAwesomeIcon icon={faTrash} aria-hidden="true" />Delete</Button></div>
   </Card>;
 }

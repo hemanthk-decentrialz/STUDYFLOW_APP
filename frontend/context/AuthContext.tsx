@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, ReactNode } from "react";
 import { AUTH_EVENT_KEY, announceAuthChange, canResumeSession, getSession, saveSession, clearSession } from "@/lib/auth";
+import { ApiRequestError } from "@/lib/api/client";
 import { getCurrentUser, logout as logoutRequest, updateProfile as saveProfile } from "@/lib/api/auth";
 import { discardUserState } from "@/lib/api/state";
 import { SessionUser } from "@/types/auth";
@@ -10,6 +11,8 @@ interface AuthContextType {
   user: SessionUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  sessionError: string | null;
+  retrySession: () => void;
   login: (user: SessionUser) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (name: string) => Promise<void>;
@@ -21,12 +24,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<SessionUser | null>(null);
   const [isLoading, setLoading] = useState(true);
   const generation = useRef(0);
+  const [sessionError, setSessionError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
+  const retrySession = useCallback(() => {
+    setSessionError(null);
+    setLoading(true);
+    setAttempt((value) => value + 1);
+  }, []);
 
   const forgetSession = useCallback(() => {
     ++generation.current;
     discardUserState();
     clearSession();
     setUser(null);
+    setSessionError(null);
     setLoading(false);
   }, []);
 
@@ -39,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const changedElsewhere = (event: StorageEvent) => {
       if (event.key === AUTH_EVENT_KEY || event.key === null) expired();
     };
-    const restored = (event: PageTransitionEvent) => { if (event.persisted) expired(); };
+    const restored = (event: PageTransitionEvent) => { if (event.persisted) retrySession(); };
     window.addEventListener("studyflow-session-expired", expired);
     window.addEventListener("storage", changedElsewhere);
     window.addEventListener("pageshow", restored);
@@ -55,8 +66,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (current.id !== expected.id) { forgetSession(); return; }
         saveSession(current);
         setUser(current);
-      } catch {
-        if (active && version === generation.current) forgetSession();
+      } catch (error) {
+        if (active && version === generation.current) {
+          if (error instanceof ApiRequestError && error.status === 401) forgetSession();
+          else setSessionError("We could not verify your session. Check your connection and try again.");
+        }
       } finally {
         if (active && version === generation.current) setLoading(false);
       }
@@ -67,12 +81,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       window.removeEventListener("storage", changedElsewhere);
       window.removeEventListener("pageshow", restored);
     };
-  }, [forgetSession]);
+  }, [forgetSession, retrySession, attempt]);
 
   const login = useCallback(async (expected: SessionUser) => {
     const version = ++generation.current;
     discardUserState();
     setLoading(true);
+    setSessionError(null);
     try {
       const current = await getCurrentUser();
       if (version !== generation.current) throw new Error("Your sign-in changed. Please try again.");
@@ -106,8 +121,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(current);
   }, [user?.id]);
 
-  const value = useMemo(() => ({ user, isLoading, isAuthenticated: !!user, login, logout, updateProfile }),
-    [user, isLoading, login, logout, updateProfile]);
+  const value = useMemo(() => ({ user, isLoading, isAuthenticated: !!user, sessionError, retrySession, login, logout, updateProfile }),
+    [user, isLoading, sessionError, retrySession, login, logout, updateProfile]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
