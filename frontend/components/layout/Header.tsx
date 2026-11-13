@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faArrowRight, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { getGreeting } from "@/utils/greetings";
 import usePreferences from "@/hooks/usePreferences";
 import { formatDate } from "@/utils/formatDate";
@@ -22,7 +22,7 @@ export default function Header({
   const router = useRouter();
   const [signingOut, setSigningOut] = useState(false);
   const { user, logout } = useAuth();
-  const { settings } = usePreferences();
+  const { settings, setSettings, ready } = usePreferences();
   const greeting = getGreeting(settings.timeZone);
   const formattedDate = formatDate(new Date(), settings.timeZone);
 
@@ -44,6 +44,23 @@ export default function Header({
       </div>
       {/* Right */}
       <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+        <button
+          type="button"
+          role="switch"
+          aria-label="Dark mode"
+          aria-checked={settings.theme === "dark"}
+          title={settings.theme === "dark" ? "Late Night Cram — switch to light mode" : "Day Study — switch to dark mode"}
+          disabled={!ready}
+          className="header-theme-switch"
+          onClick={() => setSettings((current) => ({ ...current, theme: current.theme === "dark" ? "light" : "dark" }))}
+        >
+          <span className="header-theme-track" aria-hidden="true">
+            <FontAwesomeIcon icon={faSun} className="header-theme-sun" />
+            <FontAwesomeIcon icon={faMoon} className="header-theme-moon" />
+            <span className="header-theme-thumb"><FontAwesomeIcon icon={settings.theme === "dark" ? faMoon : faSun} /></span>
+          </span>
+          <span className="header-theme-label" aria-hidden="true">{settings.theme === "dark" ? "Late Night Cram" : "Day Study"}</span>
+        </button>
         <Link href="/profile" aria-label="Open your profile" className="header-profile min-w-0">
           <div className="header-avatar shrink-0">
             <p className="text-inherit" suppressHydrationWarning>

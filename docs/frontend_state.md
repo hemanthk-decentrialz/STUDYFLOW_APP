@@ -87,7 +87,7 @@ PATCH includes expectedVersion. Conflicts preserve local text and require an exp
 
 Shared entries serialize saves and reconcile authoritative responses. Countdown ticks update the UI without a request or storage write every second. The server owns deadlines, revisions and completion counts; stale revisions reload current state.
 
-Settings contains durations, sound, theme, calendar and reminders. Saving preferences refreshes timer revision/state: fresh idle blocks adopt new values, while running/paused blocks retain their duration/remainder. Completion remains at 00:00; Start/Reset and mode selection are explicit.
+Settings contains durations, sound, calendar and reminders. The shared workspace header has an accessible retro light/dark switch that applies and persists immediately. Theme changes preserve unsaved Settings drafts; Save preferences preserves the current theme. Saving preferences refreshes timer revision/state: fresh idle blocks adopt new values, while running/paused blocks retain their duration/remainder. Completion remains at 00:00; Start/Reset and mode selection are explicit.
 
 History uses recorded intervals and timezone-aware weekly totals. Manual goal progress and linked-session counts remain separate values.
 

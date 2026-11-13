@@ -54,7 +54,6 @@ function PreferencesForm({ settings, saving, onSave }: { settings: StudyFlowSett
 
     <fieldset disabled={saving} className="space-y-6">
 
-      <Card><section className="settings-section" aria-labelledby="appearance-heading"><h2 id="appearance-heading">Appearance</h2><p>Choose the workspace theme.</p><div className="settings-fields"><label>Theme<select className="input-theme" value={draft.theme} onChange={(event) => change("theme", event.target.value as StudyFlowSettings["theme"])}><option value="light">Light</option><option value="dark">Dark</option></select></label></div></section></Card>
 
       <Card><section id="focus-preferences" className="settings-section" aria-labelledby="focus-heading"><h2 id="focus-heading">Focus preferences</h2><p>Set durations for new focus sessions and breaks.</p><div className="settings-fields">
 
@@ -206,7 +205,7 @@ export default function Settings() {
 
     setSaving(true);
 
-    try { setSettings(next); await retryPendingState(); await refreshTimerState(); notify("Preferences saved."); }
+    try { setSettings((current) => ({ ...next, theme: current.theme })); await retryPendingState(); await refreshTimerState(); notify("Preferences saved."); }
 
     catch (failure) { notify(failure instanceof Error ? failure.message : "Unable to save preferences. Try saving again.", { error: true }); }
 
@@ -258,7 +257,7 @@ export default function Settings() {
 
   return <div className="settings-page space-y-6">
 
-    <PreferencesForm key={JSON.stringify(settings)} settings={settings} saving={saving || resetting} onSave={save} />
+    <PreferencesForm key={JSON.stringify({ ...settings, theme: undefined })} settings={settings} saving={saving || resetting} onSave={save} />
 
     <Card><section className="settings-section settings-row" aria-labelledby="export-heading"><div><h2 id="export-heading">Data export</h2><p className="text-muted text-sm mt-2">Download your study data as JSON.</p></div><Button type="button" variant="secondary" className="settings-action settings-download" aria-label="Download study data as JSON" title="Download study data" loading={exporting} disabled={resetting || saving} onClick={() => { void download(); }}>{!exporting && <FontAwesomeIcon icon={faDownload} aria-hidden="true" />}</Button></section></Card>
 

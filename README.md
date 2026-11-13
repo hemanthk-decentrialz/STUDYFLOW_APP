@@ -11,10 +11,10 @@ I built Studyflow with a Next.js frontend and an asynchronous FastAPI backend. P
 - **Notes:** editing, autosave, device-draft recovery and version-conflict handling.
 - **Goals:** deadlines, manual progress and linked-session counts.
 - **Focus:** configurable study/break durations and server-timed history.
-- **Settings:** theme, calendar preferences, reminders, JSON export, Recently deleted and study-data reset.
+- **Settings:** calendar preferences, reminders, JSON export, Recently deleted and study-data reset.
 - **Profile:** display-name editing, account details and sign-out.
 
-The interface supports desktop/mobile layouts, collapsible navigation, searchable course selection and contextual filters. I use the Outrun Studio theme: sunwashed peach/seashell surfaces and retro teal actions in light mode; CRT green-black/emerald surfaces and phosphor-green actions in dark mode. Crisp borders, offset shadows, monospace status badges and a segmented loader give the workspace its terminal-inspired character. Sync feedback stays cyan, reset progress amber and destructive actions rose.
+The shared workspace header provides an immediate, automatically saved light/dark theme switch. The interface supports desktop/mobile layouts, collapsible navigation, searchable course selection and contextual filters. I use the Outrun Studio theme: sunwashed peach/seashell surfaces and retro teal actions in light mode; CRT green-black/emerald surfaces and phosphor-green actions in dark mode. Crisp borders, offset shadows, monospace status badges and a segmented loader give the workspace its terminal-inspired character. Sync feedback stays cyan, reset progress amber and destructive actions rose.
 
 ## Stack
 
