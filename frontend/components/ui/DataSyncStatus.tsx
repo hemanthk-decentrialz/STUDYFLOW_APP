@@ -43,6 +43,6 @@ export default function DataSyncStatus() {
         finally { setPending(null); }
       }}>{pending === notice.id ? "Working…" : notice.action.label}</button>}<button disabled={pending === notice.id} aria-label={`Dismiss: ${notice.message}`} onClick={() => setNotices((items) => items.filter((item) => item.id !== notice.id))}>Dismiss</button></div>
     </div>)}</div>
-    {confirmation && <dialog ref={dialog} className="feedback-dialog" aria-labelledby="confirmation-title" onCancel={(event) => { event.preventDefault(); close(false); }}><h2 id="confirmation-title">Confirm data reset</h2><p>{confirmation.message}</p><div className="flex justify-end gap-4 mt-6"><button autoFocus onClick={() => close(false)}>Cancel</button><button className="quiet-action quiet-danger" onClick={() => close(true)}>Delete study data</button></div></dialog>}
+    {confirmation && <dialog ref={dialog} className="feedback-dialog" aria-labelledby="confirmation-title" onCancel={(event) => { event.preventDefault(); close(false); }}><h2 id="confirmation-title">Confirm data reset</h2><p>{confirmation.message}</p><div className="feedback-dialog-actions"><button type="button" className="quiet-action" autoFocus onClick={() => close(false)}>Cancel</button><button type="button" className="quiet-action quiet-danger" onClick={() => close(true)}>Delete study data</button></div></dialog>}
   </>;
 }

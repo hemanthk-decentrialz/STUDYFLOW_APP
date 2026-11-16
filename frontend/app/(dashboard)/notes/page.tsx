@@ -20,7 +20,7 @@ function NotesPageContent({ initialQuery }: { initialQuery: ResourceQuery }) {
       onChange={resources.setQuery} loading={resources.loading} error={resources.error} retry={resources.retry} />
     <div className="workspace-grid">
       <NoteEditor initialCourseId={resources.query.course_id} onAddNote={addNote} onSaved={() => resources.retry()} />
-      <fieldset disabled={resources.loading} className="notes-list">
+      <fieldset disabled={resources.loading} className="notes-list items-start">
         {!resources.loading && !resources.items.length && <p>No notes in this view. Adjust your filters or choose a course and create a note.</p>}
         {resources.items.map((note) => <NoteCard key={note.id} note={note} onDelete={deleteNote} onSaved={resources.replace} onDone={resources.retry} />)}
       </fieldset>

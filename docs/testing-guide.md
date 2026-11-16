@@ -108,7 +108,8 @@ I start PostgreSQL and both development servers using the README, then open `htt
 | Course picker | Select a course, search by part of its name, use arrows/Enter/Escape | One searchable picker; a saved relationship requires a real course selection |
 | Planner | Add a dated session for today, complete it, edit its date/time and link an appropriate goal | Today and planner agree; completion persists; a goal from another course is rejected |
 | Notes | Create a note, edit it and wait for Saved; reload; then change the same note from two separate signed-in contexts | Content persists; stale versions produce a recovery choice rather than silently overwriting. In a fresh second tab I sign in again as required by the visit policy |
-| Draft recovery | Type unsaved content, navigate/reopen the editor and review its recovered draft | Local text remains recoverable; I review recovered content before autosave resumes |
+| Explicit note saving | Edit an existing note and wait beyond 900 ms | The saved note remains unchanged until Save now is selected; Done stays disabled while edits are unsaved |
+| Draft recovery | Type unsaved content, navigate/reopen the editor and review its recovered draft | Local text remains recoverable; I review recovered content before explicitly saving it |
 | Goals | Create a deadline, change progress to 0/40/70/100, and complete a linked planner session | Progress persists and colours remain consistent; manual progress and linked-session counts remain separate |
 | Filters and pagination | Create 11 notes; open Filters, search/sort/filter, then move between pages | Filters disclose beside the title; default page size is 10; page 2 contains the remaining item; one-page results hide pagination |
 | Focus | In Settings set focus to one minute; start, pause, resume and wait for completion; try a break | The timer reconciles server state, ends at 00:00 and counts completion once; focus intervals appear in history, while breaks do not |
@@ -120,7 +121,7 @@ I start PostgreSQL and both development servers using the README, then open `htt
 | Reset | Only in a disposable account, confirm Reset Application and wait for completion | Study data/history is permanently cleared; account and preferences remain; another account is unaffected |
 | Logout/permissions | Log out and try a protected API; in another browser profile log in as another account and request an owned resource ID | Logged-out API returns 401; foreign resources return 404 and cannot be modified or deleted |
 | Failure recovery | Stop the backend, attempt a read/save, restart it and retry | Useful error/pending feedback; unsaved text is retained; retry recovers without a false Saved message |
-| Layout/accessibility | Repeat key flows in sunwashed-peach light/phosphor-terminal dark themes and narrow/wide layouts; navigate using Tab | Canvas, cards, pickers, loaders and reset feedback share the palette; hover/focus and success/warning/error states stay readable |
+| Layout/accessibility | Repeat key flows in Outrun Studio light/dark themes and narrow/wide layouts; navigate using Tab | Canvas, cards, pickers, loaders and reset feedback share the palette; hover/focus and success/warning/error states stay readable |
 | First visit | Open localhost:3000 in a new tab without a session marker | Redirect to login without dashboard-specific copy; slower startup says Loading Studyflow, while a fast redirect avoids flashing loader contents |
 
 For each failed case, I record the page, steps, expected/actual result and HTTP status without attaching passwords, cookies or private exports. I do not mark manual acceptance complete until I have actually performed the checks. Automated backend tests do not certify every browser interaction.

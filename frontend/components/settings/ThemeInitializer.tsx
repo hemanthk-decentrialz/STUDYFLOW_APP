@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import useUserState from "@/hooks/useUserState";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
 import { StudyFlowSettings } from "@/types/settings";
@@ -11,7 +11,7 @@ export default function ThemeInitializer() {
     ...DEFAULT_SETTINGS,
     theme: getStorageItem<string>("theme", "light") === "dark" ? "dark" : "light",
   });
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(settings.theme);
     setStorageItem("theme", settings.theme);

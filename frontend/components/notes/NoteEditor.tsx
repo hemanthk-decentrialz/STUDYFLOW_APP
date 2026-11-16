@@ -30,7 +30,6 @@ export default function NoteEditor({ note, onAddNote, onSaved, onDone, initialCo
   const [error, setError] = useState("");
   const [status, setStatus] = useState(initial.recovered ? "Recovered draft, not saved" : note ? "Saved" : "Draft on this device");
   const [busy, setBusy] = useState(false);
-  const [cycle, setCycle] = useState(0);
   const latest = useRef(draft), saved = useRef(initial.base), version = useRef(initial.draft.baseVersion), saving = useRef(false), active = useRef(true);
   const dirty = (value: Draft) => value.title !== saved.current.title || value.content !== saved.current.content || value.courseId !== saved.current.courseId;
   const valid = (value: Draft) => !!value.courseId && !!value.title.trim() && !!value.content.trim();
@@ -76,17 +75,17 @@ export default function NoteEditor({ note, onAddNote, onSaved, onDone, initialCo
         const remote = await noteApi.get(note.id).catch(() => null);
         if (active.current && remote && remote.version !== version.current) setConflict(remote);
       }
-    } finally { saving.current = false; if (active.current) { setBusy(false); setCycle((value) => value + 1); } }
+    } finally { saving.current = false; if (active.current) { setBusy(false); } }
   }
   useEffect(() => {
-    const timeout = setTimeout(() => { writeDraft(); if (note && !recovery && !conflict && !error && valid(latest.current) && dirty(latest.current)) void save(); }, 900);
+    const timeout = setTimeout(writeDraft, 900);
     return () => clearTimeout(timeout);
-    // Save reads the latest refs; incoming server props never replace an unsaved draft.
+    // Only cache a recovery draft here; account saves require an explicit action.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draft, recovery, conflict, cycle]);
+  }, [draft, cacheKey]);
   const change = (changes: Partial<Draft>) => { const next = { ...latest.current, ...changes }; latest.current = next; setDraft(next); setError(""); setStatus(note ? "Unsaved changes" : "Draft on this device"); };
   return <Card className={`note-editor${note ? "" : " form-panel"}`}><h2 className="text-xl font-semibold mb-4">{note ? "Edit note" : "Create note"}</h2>
-    <p id={`note-status-${draft.id}`} role="status" aria-live="polite" className="text-muted text-xs mb-4">{status}{note ? " · Autosaves after you stop typing" : " · Create to save to your account"}</p>
+    <p id={`note-status-${draft.id}`} role="status" aria-live="polite" className="text-muted text-xs mb-4">{status}{note ? " · Save now to update your account" : " · Create to save to your account"}</p>
     {recovery && <div className="feedback-error"><p>A device draft was recovered. Review it before saving.</p><button type="button" onClick={() => { setRecovery(false); setStatus("Unsaved changes"); }}>Resume draft</button><button type="button" onClick={() => { latest.current = initial.base; saved.current = initial.base; version.current = initial.base.baseVersion; setDraft(initial.base); setRecovery(false); setConflict(null); setError(""); setStatus(note ? "Saved" : "Draft on this device"); localStorage.removeItem(cacheKey); }}>Discard recovered draft</button></div>}
     {error && <p role="alert" className="feedback-error">{error}</p>}
     {conflict && <section className="feedback-error" aria-label="Note version conflict"><h3 className="font-semibold">This note changed elsewhere</h3><p>Your draft is kept below. Review the server version before choosing.</p><details><summary>Latest server version</summary><h4>{conflict.title}</h4><p className="whitespace-pre-wrap">{conflict.content}</p></details><div className="flex flex-wrap gap-4 mt-3"><button disabled={busy} onClick={() => { const base = { id: conflict.id, title: conflict.title, content: conflict.content, courseId: conflict.courseId, baseVersion: conflict.version }; saved.current = base; latest.current = base; version.current = conflict.version; setDraft(base); onSaved?.(conflict); setConflict(null); setRecovery(false); setError(""); setStatus("Saved"); localStorage.removeItem(cacheKey); }}>Use server version</button><button disabled={busy} onClick={() => void save(conflict)}>Save my version instead</button></div></section>}
@@ -94,7 +93,7 @@ export default function NoteEditor({ note, onAddNote, onSaved, onDone, initialCo
       <label className="block text-sm">Title<input required maxLength={200} className="input-theme w-full rounded-lg p-3 mt-2" value={draft.title} onChange={(event) => change({ title: event.target.value })} /></label>
       <CourseSelect required value={draft.courseId} selectedLabel={draft.courseId === note?.courseId ? note.subject : undefined} onChange={(id) => change({ courseId: id })} />
       <label className="block text-sm">Note content<textarea aria-label="Note content" aria-describedby={`note-status-${draft.id}`} required rows={note ? 16 : 8} maxLength={100000} className="input-theme note-writing w-full rounded-lg p-3 mt-2" value={draft.content} onChange={(event) => change({ content: event.target.value })} /></label>
-      <div className="note-actions"><Button type="submit" disabled={busy || recovery || !!conflict} loading={busy}>{note ? "Save now" : "Create note"}</Button>{note && <Button type="button" variant="secondary" disabled={busy || !!conflict || recovery} onClick={async () => { if (dirty(latest.current) && !conflict) await save(); if (!dirty(latest.current)) onDone?.(); }}>Done</Button>}{note && <button type="button" disabled={busy} className="text-sm text-muted" onClick={onDone}>Close, keep device draft</button>}</div>
+      <div className="note-actions"><Button type="submit" disabled={busy || recovery || !!conflict} loading={busy}>{note ? "Save now" : "Create note"}</Button>{note && <Button type="button" variant="secondary" disabled={busy || !!conflict || recovery || status !== "Saved"} onClick={onDone}>Done</Button>}{note && <button type="button" disabled={busy} className="text-sm text-muted" onClick={onDone}>Close, keep device draft</button>}</div>
     </fieldset></form>
   </Card>;
 }

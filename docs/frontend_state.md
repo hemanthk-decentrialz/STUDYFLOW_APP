@@ -79,15 +79,15 @@ Mutations expose pending/errors and refresh affected views. Delete offers real U
 
 ### Notes
 
-New notes remain device drafts until Create. Existing notes autosave valid changes after 900 ms idle. Drafts are account/note/context scoped and flushed on page hide/unmount where storage is available.
+New notes remain device drafts until Create. Existing notes save to the account only through Save now or the explicit conflict-resolution save action. Done becomes available after changes are saved. Device recovery drafts are cached after 900 ms idle without updating the server. Drafts are account/note/context scoped and flushed on page hide/unmount where storage is available.
 
-PATCH includes expectedVersion. Conflicts preserve local text and require an explicit server/local choice. Recovered drafts require review before autosave resumes. Failed/in-flight saves do not silently discard new typing. Device storage assists recovery; it is not the notes database.
+PATCH includes expectedVersion. Conflicts preserve local text and require an explicit server/local choice. Recovered drafts require review before an explicit save. Failed/in-flight saves do not silently discard new typing. Device storage assists recovery; it is not the notes database.
 
 ### Timer and preferences
 
 Shared entries serialize saves and reconcile authoritative responses. Countdown ticks update the UI without a request or storage write every second. The server owns deadlines, revisions and completion counts; stale revisions reload current state.
 
-Settings contains durations, sound, calendar and reminders. The shared workspace header has an accessible retro light/dark switch that applies and persists immediately. Theme changes preserve unsaved Settings drafts; Save preferences preserves the current theme. Saving preferences refreshes timer revision/state: fresh idle blocks adopt new values, while running/paused blocks retain their duration/remainder. Completion remains at 00:00; Start/Reset and mode selection are explicit.
+Settings contains durations, sound, calendar and reminders. The shared workspace header has an accessible retro light/dark switch that applies and persists immediately. Theme switching uses a 420ms native circular View Transition from the header switch, with immediate updates for reduced motion or unsupported browsers. Theme classes and the shared state commit synchronously before capture; color transitions do not interpolate between palettes. The switch uses the shared card, border and primary tokens. Theme changes preserve unsaved Settings drafts; Save preferences preserves the current theme. Saving preferences refreshes timer revision/state: fresh idle blocks adopt new values, while running/paused blocks retain their duration/remainder. Completion remains at 00:00; Start/Reset and mode selection are explicit.
 
 History uses recorded intervals and timezone-aware weekly totals. Manual goal progress and linked-session counts remain separate values.
 
@@ -101,20 +101,20 @@ Export uses authenticated blob transport and an icon-only download button with a
 
 ## Visual system and navigation
 
-I use the Outrun Studio theme: sunwashed peach canvas (#F5E2DC), seashell cards (#FCF3F0), charcoal text (#1E242B), teal actions (#0F766E) and terracotta borders (#DFC1B8) in light mode; green-black canvas (#0C1713), emerald cards (#13241E), mint text (#D1FAE5), phosphor-green actions (#34D399) and matrix borders (#223F35) in dark mode. globals.css owns shared tokens, hover states and status roles. I use a local JetBrains Mono / Space Mono / system monospace stack for headings and hardware-style feedback, with system UI text for reading. No font download is required; a named font appears only when installed.
+I use Outrun Studio: light canvas #F5E2DC, cards #FCF3F0, text #1E242B, primary #0F766E, primary labels #FCF3F0 and borders #DFC1B8; dark canvas #0C1713, cards #13241E, text #D1FAE5, primary #34D399, primary labels #0C1713 and borders #223F35. globals.css owns shared tokens, hover states and status roles. I use a local JetBrains Mono / Space Mono / system monospace stack for headings and hardware-style feedback, with system UI text for reading. No font download is required; a named font appears only when installed.
 
 - Desktop navigation collapses; mobile has shortcuts and a drawer with Escape, focus handling and an inert background.
 - Filters are a labelled disclosure beside the title.
-- Hover states use shared teal/phosphor-green accent tokens in both themes, with red feedback for destructive actions and visible keyboard focus. Disabled controls do not use active hover states.
+- Hover states use shared grape-purple/candy-pink accent tokens in both themes, with red feedback for destructive actions and visible keyboard focus. Disabled controls do not use active hover states.
 - Related-resource links are compact labeled controls without diagonal arrows; the header profile link has a button border and hover state. Today has no extra Plan a session action beside its heading.
 - Resource forms share a form/content grid that stacks on narrow screens.
 - Notes use a reading layout; the timer has one dominant clock.
-- Goal progress retains its thresholds: red below 40%, amber from 40%, the primary teal/phosphor-green from 70%, a separate completion green at 100%; zero is empty.
-- Sync success uses dedicated electric-cyan tokens (#0284C7 / #38BDF8), reset progress uses amber (#D97706 / #FBBF24), and destructive feedback uses rose (#E11D48 / #FB7185). I keep completion green separate from sync blue so a palette change does not blur those roles. Darker light-mode status text keeps small labels readable while preserving those accent colours.
+- Goal progress uses the primary control color for its fill, with a card-colored track and border outline. Percentage and status labels communicate progress; zero is empty.
+- Sync/success LEDs use #0F7045 / #54DA8B, warning/reset-progress LEDs #825000 / #FFD166, and error/destructive LEDs #A8253E / #FF6B83. Badge text and outlines use neutral foreground/border tokens; the solid 8px LED core carries a 55% outer glow. Status text outside badges uses readable dedicated tokens.
 - Primary text, muted text, primary-button labels and status-text/card pairs were checked at 4.5:1 or better in both themes. This is a targeted contrast check, not complete accessibility certification.
 - The initial auth guard uses Loading Studyflow, not dashboard-specific copy. I defer only its visible spinner/text by 200 ms to avoid flashes on fast login redirects; I do not add a minimum wait or render protected content before verification. After authentication, each page keeps its own data-loading message.
-- Cards and primary buttons use crisp 1.5px borders and 2px hard offset shadows instead of blurry elevation.
-- Sync/error notices use an 8px LED dot and monospace bordered badge. Reset progress uses an amber LED; destructive actions use rose.
+- Cards, primary and secondary buttons use crisp borders and 2px hard offset shadows instead of blurry elevation. Profile actions and rectangular filter, pagination and header controls share the border-colored shadow; the theme switch has no pressed translation.
+- Sync/error notices use an 8px LED dot and monospace bordered badge. Reset progress uses an amber LED; errors/destructive alerts use red.
 - The full-page loader uses animated accent-coloured segments on the canvas background. It is indeterminate and has no fabricated percentage; its progressbar label and status text remain accessible and reduced-motion preferences are respected.
 - Pickers, feedback notices and reset overlays share the same palette rather than hardcoded blue or white surfaces.
 
@@ -127,3 +127,13 @@ Global navigation and links to different filtered contexts remain intentional. C
 Use the [README checks](../README.md#development-checks). Review empty/populated, loading/error, overflow and narrow-screen states after changes. Check conditional navigation and both one-page/multiple-page lists.
 
 Development verification has covered desktop/mobile layouts, dark mode, course selection, filters, timer controls, note conflicts, exports and restore. Frontend browser checks remain manual. Backend pytest coverage now checks the API contracts, cookie sessions and persistence behind these screens; the [testing guide](testing-guide.md) explains coverage and reproduction. This is not proof of deployment readiness, and deployment scaffolding has not been added.
+
+The global stylesheet uses expanded declaration blocks and shared selector groups for identical styles. The full Preferences row in profile account details links to Settings, with a color change and underline on hover and no hover background. The header theme switch retains its static hard shadow and circular reveal without a pressed translation or shadow change.
+
+Saved notes start with six-line, newline-preserving previews. Overflow is measured after layout, font loading and resizing; only overflowing notes offer Read more / Show less, with keyboard access on the control. The body and the native sixth-line ellipsis are display-only; Read more / Show less is the sole expansion control. Saved content changes reset the preview. The notes grid aligns cards to the start so expanding one does not stretch neighboring cards. Preview controls use the shared primary purple/aqua tokens.
+
+The header profile control swaps its card/accent-soft backgrounds with the avatar on hover so the avatar remains distinct in either theme. Reset confirmation actions share typography, padding and equal-width hit areas, with destructive color retained for deletion.
+
+Text links use a shared currentColor underline that draws left to right over 250 ms on hover or keyboard focus and retracts on exit. Button-style links, sidebar/mobile navigation and branding are excluded; data-no-underline provides an explicit opt-out. Reduced motion disables the underline transition.
+
+The Preferences row remains fully clickable while its animated underline is limited to the Preferences text, excluding the icons and empty row space.

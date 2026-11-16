@@ -123,18 +123,18 @@ export default function SignupForm() {
           </div>
         )}
         {success && (
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-600 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-400">
+          <div className="rounded-xl border border-(--border) bg-(--card) px-4 py-3 text-sm font-medium text-(--success-text)">
             {success}
           </div>
         )}
-        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-(--on-primary) transition hover:opacity-90">
+        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-(--on-primary) transition-opacity hover:opacity-90">
           Create Account
         </button>
       </form>
       <div className="mt-8 text-center">
         <p className="text-muted text-sm">
           Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-(--primary) transition hover:underline">
+          <Link href="/login" className="font-semibold text-(--primary)">
             Login
           </Link>
         </p>

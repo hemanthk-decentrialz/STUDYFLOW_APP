@@ -100,14 +100,14 @@ export default function LoginForm() {
             {error}
           </p>
         )}
-        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-(--on-primary) transition hover:opacity-90">
+        <button type="submit" className="gradient-primary w-full rounded-xl py-3 font-semibold text-(--on-primary) transition-opacity hover:opacity-90">
           Login
         </button>
       </form>
       <div className="mt-8 text-center">
         <p className="text-muted text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="/signup" className="font-semibold text-(--primary) hover:underline">
+          <Link href="/signup" className="font-semibold text-(--primary)">
             Sign Up
           </Link>
         </p>

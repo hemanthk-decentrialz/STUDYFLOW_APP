@@ -128,7 +128,7 @@ export default function ProfilePage() {
               </div>
             </dl>
             <Link href="/settings" className="profile-settings-link mt-6">
-              <span className="flex items-center gap-2"><FontAwesomeIcon icon={faSliders} aria-hidden="true" /> Preferences</span>
+              <span className="profile-settings-label"><FontAwesomeIcon icon={faSliders} aria-hidden="true" /><span className="profile-settings-text">Preferences</span></span>
               <FontAwesomeIcon icon={faArrowRight} aria-hidden="true" />
             </Link>
           </section>

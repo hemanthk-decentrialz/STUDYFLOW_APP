@@ -16,7 +16,7 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const baseStyles = "study-button inline-flex w-full items-center justify-center gap-2 px-5 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-60";
+  const baseStyles = "study-button inline-flex w-full items-center justify-center gap-2 px-5 py-3 font-semibold disabled:cursor-not-allowed";
   const variants = { primary: "study-button-primary", secondary: "study-button-secondary", danger: "study-button-danger" };
 
   return (

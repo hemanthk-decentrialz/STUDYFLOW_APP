@@ -8,13 +8,13 @@ I built Studyflow with a Next.js frontend and an asynchronous FastAPI backend. P
 
 - **Today:** next study session, daily agenda, deadlines and weekly focus.
 - **Courses and planner:** owned course relationships, dated sessions, priorities, completion and optional goal links.
-- **Notes:** editing, autosave, device-draft recovery and version-conflict handling.
+- **Notes:** editing, explicit saving, device-draft recovery and version-conflict handling.
 - **Goals:** deadlines, manual progress and linked-session counts.
 - **Focus:** configurable study/break durations and server-timed history.
 - **Settings:** calendar preferences, reminders, JSON export, Recently deleted and study-data reset.
 - **Profile:** display-name editing, account details and sign-out.
 
-The shared workspace header provides an immediate, automatically saved light/dark theme switch. The interface supports desktop/mobile layouts, collapsible navigation, searchable course selection and contextual filters. I use the Outrun Studio theme: sunwashed peach/seashell surfaces and retro teal actions in light mode; CRT green-black/emerald surfaces and phosphor-green actions in dark mode. Crisp borders, offset shadows, monospace status badges and a segmented loader give the workspace its terminal-inspired character. Sync feedback stays cyan, reset progress amber and destructive actions rose.
+The shared workspace header provides an immediate, automatically saved light/dark theme switch with a crisp circular reveal. Reduced-motion preferences and browsers without View Transitions receive immediate theme changes. The interface supports desktop/mobile layouts, collapsible navigation, searchable course selection and contextual filters. I use the Outrun Studio theme: sunwashed peach canvas (#F5E2DC), seashell cards (#FCF3F0) and teal controls (#0F766E) in light mode; green-black canvas (#0C1713), emerald cards (#13241E) and phosphor-green controls (#34D399) in dark mode. Crisp borders, offset shadows, existing monospace fonts and the segmented loader preserve the retro character. Sync feedback uses cyan, warnings/reset progress use amber, and destructive alerts use rose.
 
 ## Stack
 
