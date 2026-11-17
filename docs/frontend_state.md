@@ -1,6 +1,6 @@
 # Frontend structure and integration
 
-Studyflow uses Next.js App Router, React, TypeScript and Tailwind CSS. I keep business data in FastAPI/PostgreSQL; browser storage is limited to display/theme caches, tab markers and recoverable drafts.
+Studyflow uses Next.js 16.4.6 App Router, React, TypeScript and Tailwind CSS. I keep business data in FastAPI/PostgreSQL; browser storage is limited to display/theme caches, tab markers and recoverable drafts.
 
 [README](../README.md#local-setup) covers execution. [Backend architecture](backend_architecture.md) contains the API catalog and data invariants.
 
@@ -123,6 +123,8 @@ I keep one same-purpose destination per card/state. Today's empty plan has Add a
 Global navigation and links to different filtered contexts remain intentional. Controls with different outcomes, such as saving a note versus keeping its unsaved device draft, are not duplicates.
 
 ## Verification and maintenance
+
+Next.js and eslint-config-next are pinned together at 16.4.6. next.config.ts keeps experimental.agentUpgrade set to security so development/build reminders check for security fixes; dependencies still change through an explicit upgrade. The lockfile resolves TypeScript ESLint 8.73.0 with patched minimatch 11.0.9 for the development lint toolchain.
 
 Use the [README checks](../README.md#development-checks). Review empty/populated, loading/error, overflow and narrow-screen states after changes. Check conditional navigation and both one-page/multiple-page lists.
 

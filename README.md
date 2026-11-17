@@ -20,7 +20,7 @@ The shared workspace header provides an immediate, automatically saved light/dar
 
 | Area | Technology |
 | --- | --- |
-| Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS 4, Font Awesome |
+| Frontend | Next.js 16.4.6, React 19, TypeScript, Tailwind CSS 4, Font Awesome |
 | Backend | FastAPI, Pydantic v2, pydantic-settings |
 | Data | PostgreSQL, SQLAlchemy 2.0 async ORM, asyncpg, Alembic |
 | Authentication | Argon2 password hashes and revocable HTTPOnly cookie sessions |
