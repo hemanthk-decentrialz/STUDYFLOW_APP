@@ -263,7 +263,7 @@ export default function Settings() {
 
     <RecentlyDeleted settings={settings} />
 
-    <Card><section className="settings-section settings-row" aria-labelledby="reset-heading"><div><h2 id="reset-heading">Reset application</h2><p className="text-muted text-sm mt-2">Permanently delete study data; keep your account and preferences.</p><Link className="text-sm text-(--primary) inline-block mt-2" href="/profile">Manage your profile</Link></div><Button type="button" variant="danger" className="settings-action" loading={resetting} disabled={saving || exporting} onClick={() => { void resetApplication(); }}>Reset data</Button></section></Card>
+    <Card><section className="settings-section settings-row" aria-labelledby="reset-heading"><div><h2 id="reset-heading">Reset application</h2><p className="text-muted text-sm mt-2">Permanently delete study data; keep your account and preferences.</p><Link className="text-action text-sm mt-2" href="/profile">Manage your profile</Link></div><Button type="button" variant="danger" className="settings-action" loading={resetting} disabled={saving || exporting} onClick={() => { void resetApplication(); }}>Reset data</Button></section></Card>
 
   </div>;
 

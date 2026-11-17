@@ -26,8 +26,8 @@ export default function Header({
   const { settings, setSettings, ready } = usePreferences();
   const themeTransitionPending = useRef(false);
 
-  async function toggleTheme(event: MouseEvent<HTMLButtonElement>) {
-    if (!ready || themeTransitionPending.current) return;
+  async function selectTheme(event: MouseEvent<HTMLButtonElement>, theme: "light" | "dark") {
+    if (!ready || themeTransitionPending.current || theme === settings.theme) return;
     const { left, top, width, height } = event.currentTarget.getBoundingClientRect();
     const x = left + width / 2;
     const y = top + height / 2;
@@ -36,7 +36,7 @@ export default function Header({
     const applyTheme = () => {
       if (applied) return;
       applied = true;
-      flushSync(() => setSettings((current) => ({ ...current, theme: current.theme === "dark" ? "light" : "dark" })));
+      flushSync(() => setSettings((current) => ({ ...current, theme })));
     };
     if (!document.startViewTransition || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       applyTheme();
@@ -71,7 +71,7 @@ export default function Header({
     <header className="workspace-header sticky top-0 z-30 flex items-center justify-between gap-3" style={{ borderColor: "var(--border)", }}>
       {/* Left */}
       <div className="flex min-w-0 items-center gap-2 sm:gap-4">
-        <button onClick={onMenuClick} aria-label={menuOpen ? "Collapse navigation" : "Open navigation"} aria-controls="studyflow-navigation" aria-expanded={menuOpen} className="icon-button rounded-xl p-3 transition-transform">
+        <button onClick={onMenuClick} aria-label={menuOpen ? "Collapse navigation" : "Open navigation"} aria-controls="studyflow-navigation" aria-expanded={menuOpen} className="header-menu icon-button rounded-xl p-3 transition-transform">
           <FontAwesomeIcon icon={faBars} className="text-lg" />
         </button>
         <div className="min-w-0">
@@ -85,23 +85,14 @@ export default function Header({
       </div>
       {/* Right */}
       <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-        <button
-          type="button"
-          role="switch"
-          aria-label="Dark mode"
-          aria-checked={settings.theme === "dark"}
-          title={settings.theme === "dark" ? "Late Night Cram — switch to light mode" : "Day Study — switch to dark mode"}
-          disabled={!ready}
-          className="header-theme-switch"
-          onClick={(event) => { void toggleTheme(event); }}
-        >
-          <span className="header-theme-track" aria-hidden="true">
-            <FontAwesomeIcon icon={faSun} className="header-theme-sun" />
-            <FontAwesomeIcon icon={faMoon} className="header-theme-moon" />
-            <span className="header-theme-thumb"><FontAwesomeIcon icon={settings.theme === "dark" ? faMoon : faSun} /></span>
-          </span>
-          <span className="header-theme-label" aria-hidden="true">{settings.theme === "dark" ? "Late Night Cram" : "Day Study"}</span>
-        </button>
+        <div className="header-theme-control" role="group" aria-label="Theme">
+          <button type="button" className="header-theme-option" aria-label="Light mode" title="Light mode" aria-pressed={settings.theme === "light"} disabled={!ready} onClick={(event) => { void selectTheme(event, "light"); }}>
+            <FontAwesomeIcon icon={faSun} aria-hidden="true" />
+          </button>
+          <button type="button" className="header-theme-option" aria-label="Dark mode" title="Dark mode" aria-pressed={settings.theme === "dark"} disabled={!ready} onClick={(event) => { void selectTheme(event, "dark"); }}>
+            <FontAwesomeIcon icon={faMoon} aria-hidden="true" />
+          </button>
+        </div>
         <Link href="/profile" aria-label="Open your profile" className="header-profile min-w-0">
           <div className="header-avatar shrink-0">
             <p className="text-inherit" suppressHydrationWarning>

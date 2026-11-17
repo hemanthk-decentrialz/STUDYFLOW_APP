@@ -7,6 +7,7 @@ from sqlalchemy import ColumnElement, case, func, or_, select, update
 from app.core.exceptions import ApiError
 from app.core.types import FilterValue
 from app.models.course import Course
+from app.models.focus_session import FocusSession
 from app.models.goal import Goal
 from app.models.note import Note
 from app.models.study_session import StudySession
@@ -198,7 +199,18 @@ class ResourceRepository[ModelT: Resource](OwnedRepository):
                 )
             )
         for name, value in filters.items():
-            if name in {"title", "subject"}:
+            if name == "has_completed_focus" and self.model is Course:
+                completed = (
+                    select(FocusSession.id)
+                    .where(
+                        FocusSession.user_id == self.user_id,
+                        FocusSession.course_id == Course.id,
+                        FocusSession.outcome == "completed",
+                    )
+                    .exists()
+                )
+                conditions.append(completed if value else ~completed)
+            elif name in {"title", "subject"}:
                 conditions.append(
                     func.lower(func.btrim(getattr(self.model, name)))
                     == func.lower(func.btrim(value))

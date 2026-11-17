@@ -25,6 +25,10 @@
   --on-success: #FCF3F0;
   --overlay: rgb(30 36 43 / .65);
   --shadow: 2px 2px 0px var(--border);
+  --control-peach-edge: var(--border);
+  --control-danger-fill: var(--danger-text);
+  --control-danger-ink: var(--on-primary);
+  --control-danger-soft: color-mix(in srgb, var(--danger) 40%, var(--card));
   --radius-panel: 10px;
   --radius-control: 6px;
   --font-ui: "Segoe UI", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -33,6 +37,9 @@
 }
 
 .dark {
+  --control-peach-edge: var(--foreground);
+  --control-danger-fill: var(--danger);
+  --control-danger-soft: color-mix(in srgb, var(--danger) 35%, var(--foreground));
   color-scheme: dark;
   --background: #0C1713;
   --foreground: #D1FAE5;
@@ -144,8 +151,7 @@ a {
 .gradient-primary {
   background: var(--primary);
   color: var(--on-primary);
-  border: 1.5px solid var(--foreground);
-  box-shadow: 2px 2px 0 var(--foreground);
+  border: 1.5px solid var(--control-edge, var(--border));
 }
 
 .page-container {
@@ -189,8 +195,6 @@ a {
 
 .icon-button:hover:not(:disabled),
 .study-nav-group a:hover,
-.study-mobile-nav a:hover,
-.study-mobile-nav button:hover,
 .quiet-action:hover:not(:disabled) {
   background: var(--accent-soft);
   color: var(--primary);
@@ -342,7 +346,6 @@ a {
   font-weight: 550;
   transition: box-shadow .12s;
   transform: none;
-  box-shadow: none;
 }
 
 .profile-page .profile-action:hover {
@@ -351,8 +354,6 @@ a {
 
 .profile-page .profile-save {
   background: var(--primary);
-  border-color: var(--foreground);
-  box-shadow: 2px 2px 0 var(--foreground);
 }
 
 .profile-page .profile-save:hover:not(:disabled),
@@ -363,41 +364,6 @@ a {
 .profile-page .profile-signout {
   width: 100%;
   color: var(--foreground);
-}
-
-.profile-settings-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding-top: 18px;
-  border-top: 1px solid var(--border);
-  font-size: .8rem;
-  color: var(--primary);
-}
-
-.profile-settings-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.profile-settings-arrow {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-}
-
-.profile-settings-arrow:hover {
-  color: var(--primary-hover);
-}
-
-.profile-settings-label:hover .profile-settings-text,
-.profile-settings-row:has(.profile-settings-arrow:focus-visible) .profile-settings-text {
-  color: var(--primary-hover);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 .profile-notice {
@@ -458,7 +424,7 @@ a {
   gap: 9px;
   min-height: 40px;
   padding: 9px 14px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: 10px;
   background: var(--card);
   color: var(--foreground);
@@ -476,7 +442,6 @@ a {
 
 .resource-filter-trigger:hover,
 .resource-filter-trigger[aria-expanded="true"] {
-  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
   background: color-mix(in srgb, var(--primary) 5%, var(--card));
 }
 
@@ -564,7 +529,7 @@ a {
   place-items: center;
   min-height: 34px;
   min-width: 34px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: 8px;
   color: var(--secondary);
   background: var(--card);
@@ -572,7 +537,6 @@ a {
 
 .resource-filter-close:hover {
   color: var(--foreground);
-  border-color: var(--secondary);
 }
 
 .resource-filter-grid {
@@ -669,7 +633,7 @@ a {
   gap: 9px;
   min-height: 34px;
   padding: 7px 11px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: 8px;
   background: var(--card);
   font-size: .75rem;
@@ -677,7 +641,6 @@ a {
 
 .resource-pagination button:hover:not(:disabled),
 .planner-complete:hover:not(:disabled) {
-  border-color: var(--primary);
   color: var(--primary);
   background: var(--accent-soft);
 }
@@ -744,7 +707,7 @@ a {
 
 .study-button {
   border-radius: var(--radius-control);
-  border: 1.5px solid transparent;
+  border: 1.5px solid var(--control-edge, var(--border));
   min-height: 42px;
   font-size: .875rem;
   font-weight: 600;
@@ -753,37 +716,30 @@ a {
 .study-button-primary {
   background: var(--primary);
   color: var(--on-primary);
-  border-color: var(--foreground);
-  box-shadow: 2px 2px 0px var(--foreground);
 }
 
 .study-button-primary:active:not(:disabled) {
   transform: translate(2px, 2px);
-  box-shadow: none;
 }
 
 .study-button-secondary {
   background: var(--card);
   color: var(--foreground);
-  border-color: var(--border);
 }
 
 .study-button-secondary:hover:not(:disabled) {
   background: var(--accent-soft);
   color: var(--primary);
-  border-color: var(--primary);
 }
 
 .study-button-danger {
   background: color-mix(in srgb, var(--danger) 8%, var(--card));
   color: var(--danger-text);
-  border-color: color-mix(in srgb, var(--danger) 22%, var(--border));
 }
 
 .study-button-danger:hover:not(:disabled) {
   background: color-mix(in srgb, var(--danger) 18%, var(--card));
   color: var(--danger-text);
-  border-color: var(--danger-text);
 }
 
 .today-workspace {
@@ -822,7 +778,7 @@ a {
   align-items: center;
   min-height: 36px;
   padding: 7px 12px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: var(--radius-control);
   background: var(--card);
   color: var(--primary);
@@ -835,7 +791,6 @@ a {
 .profile-page .profile-signout:hover:not(:disabled),
 .profile-page .profile-signout:focus-visible {
   background: var(--primary);
-  border-color: var(--primary);
   color: var(--on-primary);
 }
 
@@ -885,14 +840,11 @@ a {
 
 .today-notice a {
   color: var(--primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
 }
 
 :is(.today-notice, .timer-toolbar, .settings-section) a:hover,
 .auth-form a:hover {
   color: var(--primary-hover);
-  text-decoration: underline;
 }
 
 .today-columns {
@@ -1186,44 +1138,6 @@ a {
   font-size: .7rem;
 }
 
-.study-main {
-  padding-bottom: 80px;
-}
-
-.study-mobile-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 35;
-  background: var(--card);
-  border-top: 1px solid var(--border);
-  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.study-mobile-nav a,
-.study-mobile-nav button {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  gap: 4px;
-  padding: 6px;
-  border-radius: 8px;
-  font-size: .65rem;
-  color: var(--secondary);
-}
-
-.study-mobile-nav svg {
-  height: 18px;
-}
-
-.study-mobile-nav [aria-current=page] {
-  color: var(--on-primary);
-  background: var(--primary);
-}
-
 @media (min-width: 1024px) {
   .study-sidebar {
     transform: none;
@@ -1231,11 +1145,6 @@ a {
 
   .study-main {
     margin-left: 248px;
-    padding-bottom: 0;
-  }
-
-  .study-mobile-nav {
-    display: none;
   }
 }
 
@@ -1251,12 +1160,11 @@ a {
 }
 
 .course-links a {
-  box-shadow: var(--shadow);
   display: inline-flex;
   align-items: center;
   min-height: 34px;
   padding: 6px 11px;
-  border: 1px solid color-mix(in srgb, var(--primary) 25%, var(--border));
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: 8px;
   background: var(--card);
 }
@@ -1264,7 +1172,6 @@ a {
 .course-links a:hover {
   color: var(--on-primary);
   background: var(--primary);
-  border-color: var(--primary);
 }
 
 .feedback-error {
@@ -1286,7 +1193,7 @@ a {
 
 .feedback-stack {
   position: fixed;
-  bottom: 88px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
   right: 16px;
   z-index: 60;
   width: min(360px, calc(100vw - 32px));
@@ -1461,13 +1368,7 @@ button:disabled {
   border-radius: var(--radius-control);
 }
 
-.study-combobox-chevron {
-  position: absolute;
-  right: 14px;
-  top: 10px;
-  pointer-events: none;
-  color: var(--secondary);
-}
+
 
 .study-combobox-menu {
   position: absolute;
@@ -1670,15 +1571,18 @@ button:disabled {
   gap: 10px;
   min-height: 44px;
   padding: 6px 10px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-edge, var(--border));
   background: var(--card);
   border-radius: 10px;
 }
 
 .header-profile:hover {
   background: var(--accent-soft);
-  border-color: var(--primary);
   color: var(--primary);
+}
+
+.header-profile:hover .header-avatar {
+  background: var(--card);
 }
 
 .header-avatar {
@@ -1694,7 +1598,7 @@ button:disabled {
 }
 
 .header-logout {
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: 9px;
   padding: 8px 12px;
   background: var(--card);
@@ -1705,7 +1609,6 @@ button:disabled {
 .header-logout:hover:not(:disabled) {
   background: var(--primary);
   color: var(--on-primary);
-  border-color: var(--primary);
 }
 
 .resource-page-heading h1,
@@ -1917,7 +1820,7 @@ input[type=range] {
   height: 30px;
   display: grid;
   place-items: center;
-  border: 1px solid var(--border);
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: 50%;
   color: var(--secondary);
   font-size: .75rem;
@@ -1925,7 +1828,6 @@ input[type=range] {
 
 .planner-complete[aria-pressed=true] {
   background: var(--success);
-  border-color: var(--success);
   color: var(--on-success);
 }
 
@@ -2017,8 +1919,9 @@ input[type=range] {
   letter-spacing: -.025em;
 }
 
-.note-reading > p:last-child {
+.note-body {
   font-family: var(--font-editorial);
+  font-weight: 400;
   font-size: 1.04rem;
   line-height: 1.85;
 }
@@ -2167,7 +2070,6 @@ input[type=range] {
 .timer-modes button[aria-pressed=true] {
   color: var(--foreground);
   background: var(--card);
-  box-shadow: var(--shadow);
 }
 
 .timer-modes small {
@@ -2452,6 +2354,7 @@ input[type=range] {
 }
 
 .study-sidebar-brand > button {
+  flex-shrink: 0;
   min-width: 40px;
   min-height: 40px;
 }
@@ -2461,7 +2364,7 @@ input[type=range] {
   padding: 0;
   width: 16px;
   height: 16px;
-  color: var(--foreground);
+  color: inherit;
 }
 
 /* Terminal startup and hardware status feedback */
@@ -2607,94 +2510,41 @@ input[type=range] {
   font-size: .8rem;
 }
 
-/* Theme is an immediate header action, independent of the preferences form. */
-
-.header-theme-switch {
-  --switch-track: var(--card);
-  --switch-thumb: var(--primary);
+/* The outer theme group is passive; each icon selects its own mode. */
+.header-theme-control {
   display: flex;
-  align-items: center;
-  gap: 9px;
-  min-height: 44px;
-  padding: 5px 8px;
+  gap: 6px;
+  padding: 4px;
   border: 2px solid var(--border);
   border-radius: 4px;
-  background: var(--switch-track);
-  color: var(--foreground);
-  box-shadow: 2px 2px 0 var(--border);
-  cursor: pointer;
+  background: var(--card);
 }
 
-.header-theme-switch:hover:not(:disabled) {
-  outline: 1px solid var(--foreground);
-  outline-offset: 3px;
-}
-
-.header-theme-switch:focus-visible {
-  outline: 3px solid var(--primary);
-  outline-offset: 5px;
-}
-
-.header-theme-switch:disabled {
-  opacity: .55;
-  cursor: wait;
-}
-
-.header-theme-track {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 58px;
-  height: 28px;
-  flex-shrink: 0;
-}
-
-.header-theme-sun,
-.header-theme-moon {
-  width: 16px;
-  margin: 0 5px;
-}
-
-.header-theme-thumb {
-  position: absolute;
-  left: 0;
-  top: 0;
+.header-theme-option {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
-  border: 2px solid var(--border);
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--control-edge, var(--border));
   border-radius: 3px;
-  background: var(--switch-thumb);
+  background: var(--card);
+  color: var(--foreground);
+}
+
+.header-theme-option:hover:not(:disabled) {
+  background: var(--accent-soft);
+  color: var(--primary);
+}
+
+.header-theme-option[aria-pressed="true"] {
+  background: var(--primary);
   color: var(--on-primary);
-  transition: transform .12s;
-}
-
-.dark .header-theme-thumb {
-  transform: translateX(30px);
-}
-
-.header-theme-label {
-  width: 8.5rem;
-  font: 600 .68rem/1.2 var(--font-mono);
-  text-align: left;
-}
-
-@media (max-width: 1100px) {
-  .header-theme-label {
-    display: none;
-  }
 }
 
 @media (max-width: 380px) {
   .workspace-header {
     padding-inline: 10px;
     gap: 8px;
-  }
-
-  .header-theme-switch {
-    padding-inline: 4px;
   }
 }
 
@@ -2725,4 +2575,262 @@ input[type=range] {
     animation: none;
     opacity: .5;
   }
+}
+
+.sidebar-close:hover:not(:disabled) {
+  background: transparent;
+  color: var(--primary-hover);
+}
+
+@media (max-width: 1023px) {
+  .study-sidebar-brand {
+    gap: 8px;
+    padding: 24px 16px 28px;
+  }
+
+  .study-sidebar-brand a {
+    min-width: 0;
+    gap: 8px;
+    font-size: 1.35rem;
+  }
+
+  .study-sidebar-brand a span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.note-preview-toggle {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 0;
+  background: transparent;
+  color: var(--primary);
+  font-family: var(--font-editorial);
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+/* Button borders and offset shadows always use the same edge token. */
+button,
+.header-profile,
+.course-links a,
+.today-footer-link,
+.today-empty a {
+  --control-edge: var(--control-peach-edge);
+  border: 1px solid var(--control-edge);
+  box-shadow: 2px 2px 0 var(--control-edge);
+}
+
+button {
+  background-color: var(--card);
+}
+
+button:not(:disabled):is(:hover, :focus-visible),
+.header-profile:is(:hover, :focus-visible) {
+  --control-edge: var(--primary);
+}
+
+/* A teal fill needs an edge distinct from both the fill and its surroundings. */
+.study-button-primary,
+.gradient-primary,
+.profile-page .profile-save,
+.header-theme-option[aria-pressed="true"] {
+  --control-edge: var(--control-peach-edge);
+}
+
+.study-button-primary:not(:disabled):is(:hover, :focus-visible),
+.gradient-primary:not(:disabled):is(:hover, :focus-visible),
+.profile-page .profile-save:not(:disabled):is(:hover, :focus-visible),
+.header-theme-option[aria-pressed="true"]:not(:disabled):is(:hover, :focus-visible),
+.header-logout:not(:disabled):is(:hover, :focus-visible),
+.profile-page .profile-signout:not(:disabled):is(:hover, :focus-visible),
+.course-links a:not(.text-action):is(:hover, :focus-visible),
+.today-footer-link:is(:hover, :focus-visible),
+.today-empty a:is(:hover, :focus-visible) {
+  --control-edge: var(--control-peach-edge);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.study-button-primary:not(:disabled):is(:hover, :focus-visible),
+.gradient-primary:not(:disabled):is(:hover, :focus-visible),
+.profile-page .profile-save:not(:disabled):is(:hover, :focus-visible) {
+  --control-edge: var(--control-peach-edge);
+  background: var(--primary-hover);
+}
+
+.study-button-danger,
+.quiet-danger {
+  --control-edge: var(--danger-text);
+}
+
+.study-button-danger:not(:disabled):is(:hover, :focus-visible),
+.quiet-danger:not(:disabled):is(:hover, :focus-visible) {
+  --control-edge: var(--control-danger-soft);
+  background: var(--control-danger-fill);
+  color: var(--control-danger-ink);
+}
+
+.planner-complete[aria-pressed="true"] {
+  --control-edge: var(--control-peach-edge);
+}
+
+.sidebar-close,
+.sidebar-close:hover:not(:disabled) {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.header-menu {
+  background: var(--card);
+}
+
+.header-menu:not(:disabled):is(:hover, :focus-visible) {
+  background: var(--accent-soft);
+  color: var(--primary);
+}
+
+.profile-settings-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 12px;
+  min-height: 44px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+  font-size: .8rem;
+  color: var(--primary);
+}
+
+.profile-settings-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.profile-settings-link > svg {
+  flex-shrink: 0;
+}
+
+/* Text controls never acquire a button surface, border or shadow. */
+.text-action,
+.note-preview-toggle,
+.planner-card .course-links a.text-action {
+  position: relative;
+  display: inline-block;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.planner-card .course-links a.text-action,
+.planner-goal-link {
+  padding: 0;
+  font-size: .75rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+a,
+.profile-settings-text {
+  position: relative;
+}
+
+a {
+  display: inline-block;
+  max-width: 100%;
+  text-decoration: none;
+}
+
+a.profile-settings-link {
+  display: flex;
+}
+
+a::after,
+.profile-settings-text::after,
+.text-action::after,
+.note-preview-toggle::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1.5px;
+  background: currentColor;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 250ms ease-out;
+}
+
+a:is(:hover, :focus-visible)::after,
+.profile-settings-link:is(:hover, :focus-visible) .profile-settings-text::after,
+.text-action:not(:disabled):is(:hover, :focus-visible)::after,
+.note-preview-toggle:not(:disabled):is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+
+.planner-card .course-links a.text-action::after,
+.planner-goal-link::after {
+  bottom: 0;
+}
+
+a:where(.header-profile, .profile-settings-link, .today-footer-link, .study-button, [role="button"], [data-no-underline], .course-links a:not(.text-action), .today-empty a, .study-sidebar-brand a, .study-nav-group a)::after {
+  content: none;
+}
+
+.profile-settings-link:is(:hover, :focus-visible),
+.text-action:not(:disabled):is(:hover, :focus-visible),
+.note-preview-toggle:not(:disabled):is(:hover, :focus-visible),
+.planner-card .course-links a.text-action:is(:hover, :focus-visible) {
+  background: transparent;
+  box-shadow: none;
+  color: var(--primary-hover);
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a::after,
+  .profile-settings-text::after,
+  .text-action::after,
+  .note-preview-toggle::after {
+    transition: none;
+  }
+}
+
+/* The chevron is a real toggle, without a second button surface inside the field. */
+.study-combobox-toggle {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 28px;
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--secondary);
+}
+
+.study-combobox-toggle:hover:not(:disabled),
+.study-combobox-toggle:focus-visible {
+  background: transparent;
+  color: var(--primary-hover);
+}
+
+.study-combobox-toggle[aria-expanded="true"] > span {
+  transform: rotate(180deg);
 }

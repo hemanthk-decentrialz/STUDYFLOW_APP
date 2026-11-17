@@ -17,7 +17,7 @@ export default function FocusHistory({ compact = false }: { compact?: boolean })
   const { settings } = usePreferences();
   const [summary, setSummary] = useState<FocusSummary | null>(null);
   const [history, setHistory] = useState<ResourcePage<FocusSession> | null>(null);
-  const [courseId, setCourseId] = useState<number | null>(null);
+  const [courseId, setCourseId] = useState<number | null | undefined>(undefined);
   const [page, setPage] = useState(1);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -30,7 +30,7 @@ export default function FocusHistory({ compact = false }: { compact?: boolean })
       inFlight = true;
       setLoading(true);
       try {
-        const [totals, records] = await Promise.all([getFocusSummary(settings.timeZone, controller.signal), compact ? Promise.resolve(null) : getFocusHistory(page, courseId ?? undefined, controller.signal)]);
+        const [totals, records] = await Promise.all([getFocusSummary(settings.timeZone, controller.signal), compact || courseId === undefined ? Promise.resolve(null) : getFocusHistory(page, courseId ?? undefined, controller.signal)]);
         if (!controller.signal.aborted) { setSummary(totals); setHistory(records); setError(""); }
       } catch (failure) { if (!controller.signal.aborted) setError(failure instanceof Error ? failure.message : "Unable to load focus history."); }
       finally { inFlight = false; if (!controller.signal.aborted) { setLoading(false); if (queued) { queued = false; void load(); } } }
@@ -51,10 +51,10 @@ export default function FocusHistory({ compact = false }: { compact?: boolean })
         <div className="focus-summary-courses"><h3>Course attention <span className="text-muted text-xs">Top 20 this week</span></h3>
           {summary.courses.length ? <ul className="focus-courses">{summary.courses.map((course) => <li key={`${course.courseId}:${course.title}`}><span>{course.title}</span><strong>{duration(course.seconds)}</strong></li>)}</ul> : <p className="text-muted text-sm">Start a focus timer to build a real history. Older timer counters are not converted into study time.</p>}</div></div>
     </>}
-    {!compact && <><div className="mt-8 max-w-md"><CourseSelect label="History course filter" value={courseId} onChange={(id) => { setCourseId(id); setPage(1); }} /></div><h3 className="font-semibold mt-6 mb-3">Focus intervals</h3><p className="text-muted text-xs mb-4">Pausing ends an interval. Resuming starts another. Breaks are excluded; partial focus time is retained.</p>
+    {!compact && <><div className="mt-8 max-w-md"><CourseSelect label="History course filter" placeholder="Select the course" emptyLabel="All courses" completedFocusOnly value={courseId} selectedLabel={courseId === undefined ? "Select the course" : courseId === null ? "All courses" : undefined} onReset={() => { setCourseId(undefined); setPage(1); setHistory(null); setError(""); setRevision((value) => value + 1); }} onChange={(id) => { setCourseId(id); setPage(1); setHistory(null); setError(""); setRevision((value) => value + 1); }} /></div>{courseId !== undefined && <><h3 className="font-semibold mt-6 mb-3">Focus intervals</h3><p className="text-muted text-xs mb-4">Pausing ends an interval. Resuming starts another. Breaks are excluded; partial focus time is retained.</p>
       <ul className="focus-intervals">{history?.items.map((record) => <li key={record.id}><div><strong>{record.courseTitle}</strong><p>{formatDateTime(record.startedAt, settings)} · {record.outcome}</p></div><span>{duration(record.seconds)}</span></li>)}</ul>
       {!loading && history?.total === 0 && <p className="text-muted">No focus intervals match this view.</p>}
       {history && history.total_pages > 1 && <div className="resource-pagination mt-5 text-sm"><button disabled={loading || page <= 1} onClick={() => setPage((value) => value - 1)}>Previous</button><span>{page} / {history.total_pages}</span><button disabled={loading || page >= (history?.total_pages ?? 0) || page * 10 > 10000} onClick={() => setPage((value) => value + 1)}>Next</button></div>}
-    </>}
+    </>}</>}
   </section>;
 }

@@ -6,7 +6,7 @@ import { apiRequest } from "./client";
 
 export type ResourceModule = "notes" | "goals" | "planner" | "courses";
 export interface ResourceQuery {
-  course_id?: number; goal_id?: number;
+  course_id?: number; goal_id?: number; has_completed_focus?: boolean;
   date_from?: string; date_to?: string;
   page?: number; limit?: number; search?: string; subject?: string; title?: string;
   sort_by?: string; order?: "asc" | "desc"; completed?: boolean; priority?: string;

@@ -24,4 +24,5 @@ class CourseResponse(BaseModel):
 
 
 class CourseListParams(ResourceListParams):
+    has_completed_focus: bool | None = None
     sort_by: Literal["position", "title", "created_at", "updated_at", "id"] = "position"

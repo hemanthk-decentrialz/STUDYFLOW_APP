@@ -187,3 +187,5 @@ Current head: **0011**.
 db/base.py imports all models for Alembic metadata; alembic/env.py uses an async connection. I group coherent schema changes into forward revisions and preserve applied history. Editing an old revision does not update a database stamped past it. I do not stamp head to bypass missing schema changes. The 0011 downgrade refuses incompatible longer focus records.
 
 Run the README checks after changes. I maintain pytest unit tests and real PostgreSQL API, authentication, migration and performance checks in `backend/tests`. The [testing guide](testing-guide.md) records setup, safeguards, coverage and measured results. Deployment automation, shared rate-limit storage, external workers and closed-site notifications remain separate future work.
+
+Course listing supports has_completed_focus=true to return active owned courses with at least one completed focus interval, including older history. An owner-scoped SQL EXISTS predicate is applied before counting and pagination; false selects courses without completed intervals. No schema migration is needed.

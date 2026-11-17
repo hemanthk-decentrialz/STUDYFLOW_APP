@@ -103,7 +103,7 @@ Export uses authenticated blob transport and an icon-only download button with a
 
 I use Outrun Studio: light canvas #F5E2DC, cards #FCF3F0, text #1E242B, primary #0F766E, primary labels #FCF3F0 and borders #DFC1B8; dark canvas #0C1713, cards #13241E, text #D1FAE5, primary #34D399, primary labels #0C1713 and borders #223F35. globals.css owns shared tokens, hover states and status roles. I use a local JetBrains Mono / Space Mono / system monospace stack for headings and hardware-style feedback, with system UI text for reading. No font download is required; a named font appears only when installed.
 
-- Desktop navigation collapses; mobile has shortcuts and a drawer with Escape, focus handling and an inert background.
+- The header hamburger controls navigation on desktop and mobile. Desktop navigation collapses; mobile uses a drawer with Escape, focus handling, an inert background and a color-only close-button hover. No bottom shortcut bar or reserved navigation space remains.
 - Filters are a labelled disclosure beside the title.
 - Hover states use shared grape-purple/candy-pink accent tokens in both themes, with red feedback for destructive actions and visible keyboard focus. Disabled controls do not use active hover states.
 - Related-resource links are compact labeled controls without diagonal arrows; the header profile link has a button border and hover state. Today has no extra Plan a session action beside its heading.
@@ -132,10 +132,22 @@ Development verification has covered desktop/mobile layouts, dark mode, course s
 
 The global stylesheet uses expanded declaration blocks and shared selector groups for identical styles. The full Preferences row in profile account details links to Settings, with a color change and underline on hover and no hover background. The header theme switch retains its static hard shadow and circular reveal without a pressed translation or shadow change.
 
-Saved notes start with six-line, newline-preserving previews. Overflow is measured after layout, font loading and resizing; only overflowing notes offer Read more / Show less, with keyboard access on the control. The body and the native sixth-line ellipsis are display-only; Read more / Show less is the sole expansion control. Saved content changes reset the preview. The notes grid aligns cards to the start so expanding one does not stretch neighboring cards. Preview controls use the shared primary purple/aqua tokens.
+Saved notes start with six-line, newline-preserving previews. Overflow is measured after layout, font loading and resizing; only overflowing notes offer Read more / Show less, with keyboard access on the control. The body and the native sixth-line ellipsis are display-only; Read more / Show less is the sole expansion control. Saved content changes reset the preview. The notes grid aligns cards to the start so expanding one does not stretch neighboring cards. Saved note bodies use the same monospace family as the Study notes heading at regular weight. Read more / Show less uses that family at semibold weight, shared primary colors and a 250 ms text-width animated underline with no hover background.
 
 The header profile control swaps its card/accent-soft backgrounds with the avatar on hover so the avatar remains distinct in either theme. Reset confirmation actions share typography, padding and equal-width hit areas, with destructive color retained for deletion.
 
 Text links use a shared currentColor underline that draws left to right over 250 ms on hover or keyboard focus and retracts on exit. Button-style links, sidebar/mobile navigation and branding are excluded; data-no-underline provides an explicit opt-out. Reduced motion disables the underline transition.
 
 The Preferences row remains fully clickable while its animated underline is limited to the Preferences text, excluding the icons and empty row space.
+
+The header theme control is a compact passive group containing separate accessible sun/moon buttons. Each selects its named mode and starts the circular reveal at that button. Profile hover swaps the avatar background to the card surface while preserving the initials color. Buttons share the border-token hard offset shadow across both themes.
+
+
+
+Button edges contrast with their fill and surrounding panel: card surfaces use the stronger peach edge, teal-filled controls use a contrasting edge, and controls inside the pale teal next-session section retain peach edges on hover. Dark mode uses the corresponding visible palette tokens. Border and shadow always share one edge token. Destructive actions pair a pale red surface with a stronger red edge, reversing to a solid red surface with a lighter red edge on hover. Planner goal/course actions, note expansion and management links use the shared shadow-free animated text underline. Preferences keeps a single clickable flex row and underlines only its text.
+
+Teal hover fills consistently retain the contrasting peach-edge token for both border and shadow, including Save/Create actions. Planner goal/course text actions share a 0.75rem semibold font and a zero-padding underline positioned at the text line box.
+
+Timer focus intervals stay hidden and are not fetched until the history filter selects a course or All courses. The initial placeholder is Select the course; course choices use the paginated, searchable courses endpoint with has_completed_focus=true, covering all-time completed sessions rather than only the weekly summary. All courses includes unassigned and partial intervals. Shared course/goal pickers close on a second field click or their chevron; typing, arrow keys, Escape and outside blur remain supported.
+
+The history picker starts with a selectable Select the course reset option, followed by completed-course choices and All courses. Selecting the reset option clears the displayed intervals and stops history requests until another selection is made.

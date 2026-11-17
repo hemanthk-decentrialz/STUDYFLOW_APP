@@ -57,7 +57,7 @@ export default function Sidebar({ isOpen, isDesktop, desktopCollapsed, onClose }
     inert={isDesktop ? desktopCollapsed : !mobileOpen} role={mobileOpen ? "dialog" : undefined}
     aria-modal={mobileOpen ? true : undefined} aria-label="Studyflow navigation">
     <div className="study-sidebar-brand"><Link href="/" onClick={onClose} aria-label="Studyflow Today"><FontAwesomeIcon icon={faGraduationCap} /><span>Studyflow</span></Link>
-      <button className="icon-button lg:hidden p-2" onClick={onClose} aria-label="Close navigation"><FontAwesomeIcon icon={faXmark} /></button></div>
+      <button type="button" className="sidebar-close icon-button lg:hidden p-2" onClick={onClose} aria-label="Close navigation"><FontAwesomeIcon icon={faXmark} /></button></div>
     <nav aria-label="Main navigation">{groups.map((group) => <div className="study-nav-group" key={group.title}><p>{group.title}</p>{group.items.map((item) => <Link key={item.href} href={item.href} onClick={onClose} aria-current={pathname === item.href ? "page" : undefined}><FontAwesomeIcon icon={item.icon} /><span>{item.title}</span></Link>)}</div>)}</nav>
     <div className="study-sidebar-account"><span>{user?.name?.slice(0, 1).toUpperCase()}</span><div><strong>{user?.name}</strong><p>Personal workspace</p></div></div>
   </aside>;

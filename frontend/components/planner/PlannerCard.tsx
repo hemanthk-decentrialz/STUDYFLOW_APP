@@ -30,9 +30,9 @@ export default function PlannerCard({ session, onDelete, onToggle, onSchedule, o
     <div className="planner-details"><span><FontAwesomeIcon icon={faClock} aria-hidden="true" />{formatClock(session.time, settings.timeFormat)}</span><span><FontAwesomeIcon icon={faHourglassHalf} aria-hidden="true" />{session.durationMinutes ? `${session.durationMinutes} min` : "Duration not set"}</span>
       <label className="planner-date">{session.scheduledDate ? "Study date" : "Choose a date"}<input type="date" aria-label={`Study date for ${session.subject}`} className="input-theme" value={session.scheduledDate ?? ""} onChange={(event) => { if (event.target.value) onSchedule(session.id, event.target.value); }} /></label>
     </div>
-    <button type="button" className="quiet-action" aria-expanded={linking} onClick={() => setLinking(!linking)}>{linking ? "Close goal selector" : session.goalId ? "Change linked goal" : "Link a goal"}</button>
+    <button type="button" className="planner-goal-link text-action" aria-expanded={linking} onClick={() => setLinking(!linking)}>{linking ? "Close goal selector" : session.goalId ? "Change linked goal" : "Link a goal"}</button>
     {linking && <div className="mt-3"><GoalSelect courseId={session.courseId} value={session.goalId} onChange={(goalId) => onGoal(session.id, goalId)} /></div>}
-    <div className="planner-footer"><div className="course-links"><Link href={`/notes?course_id=${session.courseId}`}>Course notes</Link>{session.goalId && <Link href={`/goals?course_id=${session.courseId}&goal_id=${session.goalId}`}>Linked goal</Link>}<span className="text-muted">{session.completed ? "Completed" : "Pending"}</span></div>
+    <div className="planner-footer"><div className="course-links"><Link className="text-action" href={`/notes?course_id=${session.courseId}`}>Course notes</Link>{session.goalId && <Link className="text-action" href={`/goals?course_id=${session.courseId}&goal_id=${session.goalId}`}>Linked goal</Link>}<span className="text-muted">{session.completed ? "Completed" : "Pending"}</span></div>
       <button type="button" className="quiet-action quiet-danger" onClick={() => onDelete(session.id)}><FontAwesomeIcon icon={faTrash} aria-hidden="true" />Delete</button>
     </div>
   </Card>;

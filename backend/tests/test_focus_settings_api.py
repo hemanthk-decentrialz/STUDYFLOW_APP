@@ -191,3 +191,56 @@ async def test_application_lifespan_and_migration_metadata(db, monkeypatch):
         check=False,
     )
     assert result.returncode == 0, redact(result.stdout + result.stderr)
+
+
+async def test_completed_focus_course_choices_are_owned_searchable_and_paginated(
+    actor, another_actor, db
+):
+    from uuid import UUID
+
+    from app.models.focus_session import FocusSession
+
+    for course_id, title in [
+        (1, "Completed Biology"),
+        (2, "Paused Physics"),
+        (3, "No history"),
+        (4, "Completed Chemistry"),
+    ]:
+        await actor.course(course_id, title)
+    other = await another_actor()
+    await other.course(9, "Other account")
+    start = datetime.now(UTC) - timedelta(days=90)
+    async with AsyncSession(db) as session, session.begin():
+        for owner, course_id, outcome in [
+            (actor, 1, "completed"),
+            (actor, 1, "completed"),
+            (actor, 4, "completed"),
+            (actor, 2, "paused"),
+            (actor, 2, "running"),
+            (other, 9, "completed"),
+        ]:
+            session.add(
+                FocusSession(
+                    user_id=UUID(owner.user["id"]),
+                    course_id=course_id,
+                    started_at=start,
+                    planned_end_at=start + timedelta(minutes=25),
+                    ended_at=None if outcome == "running" else start + timedelta(minutes=25),
+                    outcome=outcome,
+                )
+            )
+    first = await actor.request(
+        "GET", "/courses?has_completed_focus=true&sort_by=title&limit=1"
+    )
+    second = await actor.request(
+        "GET", "/courses?has_completed_focus=true&sort_by=title&limit=1&page=2"
+    )
+    assert first["total"] == second["total"] == 2
+    assert first["total_pages"] == 2
+    assert first["items"][0]["id"] == 1
+    assert second["items"][0]["id"] == 4
+    searched = await actor.request("GET", "/courses?has_completed_focus=true&search=Chemistry")
+    assert [item["id"] for item in searched["items"]] == [4]
+    excluded = await actor.request("GET", "/courses?has_completed_focus=false")
+    assert {item["id"] for item in excluded["items"]} == {2, 3}
+    assert (await actor.request("GET", "/courses"))["total"] == 4

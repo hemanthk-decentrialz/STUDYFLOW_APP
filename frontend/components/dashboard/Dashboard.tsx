@@ -28,12 +28,12 @@ export default function Dashboard() {
     catch (failure) { setStartError(failure instanceof Error ? failure.message : "Unable to start. Please try again."); }
     finally { setStarting(false); }
   }
-  if (error && !summary) return <div role="alert"><p>{error}</p><button onClick={retry}>Retry loading dashboard</button></div>;
+  if (error && !summary) return <div role="alert"><p>{error}</p><Button variant="secondary" className="dashboard-retry w-auto" onClick={retry}>Retry loading dashboard</Button></div>;
   if (isLoading || !summary) return <FullPageLoader label="Loading today..." />;
   const next = summary.nextSession;
   return <div className="today-workspace">
     <header className="today-heading"><div><p className="today-eyebrow">YOUR DAY, AT A GLANCE</p><h1>Today</h1><p className="text-muted">{calendarLabel(summary.date)} · {summary.timeZone.replaceAll("_", " ")}</p></div></header>
-    {error && <p role="alert">{error} <button onClick={retry}>Retry refreshing</button></p>}
+    {error && <p role="alert">{error} <Button variant="secondary" className="dashboard-retry w-auto" onClick={retry}>Retry refreshing</Button></p>}
     <section className="today-focus" aria-labelledby="focus-heading">
       <div><p className="today-eyebrow">{timer.isRunning ? "TIMER IN PROGRESS" : "NEXT STUDY SESSION"}</p>
         <h2 id="focus-heading">{timer.isRunning ? "Keep your momentum." : next?.subject ?? "Make room for focused study."}</h2>

@@ -40,7 +40,7 @@ function NotePreview({ content }: { content: string }) {
       ref={bodyRef}
       className={`note-body whitespace-pre-line break-words${isExpanded ? "" : " line-clamp-6"}`}
     >{content}</p>
-    {hasOverflow && <button type="button" className="note-preview-toggle" aria-expanded={isExpanded} aria-controls={bodyId} onClick={toggle}>
+    {hasOverflow && <button type="button" className="note-preview-toggle text-action" aria-expanded={isExpanded} aria-controls={bodyId} onClick={toggle}>
       {isExpanded ? "Show less" : "Read more"}
     </button>}
   </>;

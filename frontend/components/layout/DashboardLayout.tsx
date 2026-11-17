@@ -2,11 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faCalendarDays, faClock, faBars } from "@fortawesome/free-solid-svg-icons";
-
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import StudyNotifications from "@/components/timer/StudyNotifications";
@@ -39,7 +34,6 @@ export default function DashboardLayout({
     setIsSidebarOpen(false);
     requestAnimationFrame(() => { if (navigationTrigger.current?.offsetParent !== null) navigationTrigger.current?.focus(); });
   }, []);
-  const pathname = usePathname();
   useEffect(() => {
     const media = window.matchMedia(desktopQuery);
     const changed = () => setIsSidebarOpen(false);
@@ -92,10 +86,6 @@ export default function DashboardLayout({
         </main>
       </div>
 
-      <nav className="study-mobile-nav" aria-label="Quick navigation" inert={mobileOpen}>
-        {[{ href: "/", label: "Today", icon: faHouse }, { href: "/planner", label: "Planner", icon: faCalendarDays }, { href: "/timer", label: "Focus", icon: faClock }].map((item) => <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined}><FontAwesomeIcon icon={item.icon} /><span>{item.label}</span></Link>)}
-        <button aria-label="More navigation" aria-expanded={mobileOpen} aria-controls="studyflow-navigation" onClick={openSidebar}><FontAwesomeIcon icon={faBars} /><span>More</span></button>
-      </nav>
       <DataResetMonitor />
       <TimerTicker />
       <StudyNotifications />
